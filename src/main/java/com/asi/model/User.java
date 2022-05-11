@@ -1,5 +1,8 @@
 package com.asi.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class User {
 	private int id_user;
 	private String name_user;
