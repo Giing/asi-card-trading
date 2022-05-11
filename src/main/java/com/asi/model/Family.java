@@ -1,5 +1,8 @@
 package com.asi.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Family {
 	private int id_family;
 	private String name_family;

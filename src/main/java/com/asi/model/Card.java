@@ -1,5 +1,8 @@
 package com.asi.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Card {
 	private int id_card;
 	private String name_card;
