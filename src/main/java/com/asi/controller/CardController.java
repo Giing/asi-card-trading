@@ -15,7 +15,7 @@ import com.asi.service.CardService;
 public class CardController {
 	
 	@Autowired
-	CardService card_service;
+	CardService cardService;
 	
 	@RequestMapping("/index")
 	public String index() {
@@ -25,19 +25,18 @@ public class CardController {
 	
 	@RequestMapping(method=RequestMethod.POST,value="/card/")
 	public void add(@RequestBody Card card) {
-		System.out.println("Oui bonjour j'ai bien reçu la requête");
-		card_service.addCard(card);
+		cardService.addCard(card);
 	}
 	
 	//method DELETE ?
 	@RequestMapping(method=RequestMethod.DELETE,value="/card/{id}")
 	public void delete(@PathVariable String card_id) {
-		//call repo
+		
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/card/{id}")
 	public Card get(@PathVariable int card_id) {
-		return card_service.getCard(card_id);		
+		return cardService.getCard(card_id);		
 	}
 
 }
