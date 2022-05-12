@@ -1,54 +1,86 @@
 package com.asi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Card {
-	private int id_card;
-	private String name_card;
-	private String description_card;
-	private String affinity_card;
-	private int energy_card;
+	@Id
+	@GeneratedValue
+	private int idCard;
+	@Column
+	private String nameCard;
+	@Column
+	private String descriptionCard;
+	@Column
+	private String affinityCard;
+	@Column
+	private int energyCard;
+	@OneToOne
+	private Family familyCard;
 	
 	public Card() {}
-	
-	public Card(int id_card, String name_card, String description_card, String affinity_card, int energy_card) {
+
+	public Card(int idCard, String nameCard, String descriptionCard, String affinityCard, int energyCard) {
 		super();
-		this.id_card = id_card;
-		this.name_card = name_card;
-		this.description_card = description_card;
-		this.affinity_card = affinity_card;
-		this.energy_card = energy_card;
+		this.idCard = idCard;
+		this.nameCard = nameCard;
+		this.descriptionCard = descriptionCard;
+		this.affinityCard = affinityCard;
+		this.energyCard = energyCard;
 	}
 
-	public int getId_card() {
-		return id_card;
+	public int getIdCard() {
+		return idCard;
 	}
-	public void setId_card(int id_card) {
-		this.id_card = id_card;
+
+	public void setIdCard(int idCard) {
+		this.idCard = idCard;
 	}
-	public String getName_card() {
-		return name_card;
+
+	public String getNameCard() {
+		return nameCard;
 	}
-	public void setName_card(String name_card) {
-		this.name_card = name_card;
+
+	public void setNameCard(String nameCard) {
+		this.nameCard = nameCard;
 	}
-	public String getDescription_card() {
-		return description_card;
+
+	public String getDescriptionCard() {
+		return descriptionCard;
 	}
-	public void setDescription_card(String description_card) {
-		this.description_card = description_card;
+
+	public void setDescriptionCard(String descriptionCard) {
+		this.descriptionCard = descriptionCard;
 	}
-	public String getAffinity_card() {
-		return affinity_card;
+
+	public String getAffinityCard() {
+		return affinityCard;
 	}
-	public void setAffinity_card(String affinity_card) {
-		this.affinity_card = affinity_card;
+
+	public void setAffinityCard(String affinityCard) {
+		this.affinityCard = affinityCard;
 	}
-	public int getEnergy_card() {
-		return energy_card;
+
+	public int getEnergyCard() {
+		return energyCard;
 	}
-	public void setEnergy_card(int energy_card) {
-		this.energy_card = energy_card;
+
+	public void setEnergyCard(int energyCard) {
+		this.energyCard = energyCard;
 	}
+
+	public Family getFamilyCard() {
+		return familyCard;
+	}
+
+	public void setFamilyCard(Family familyCard) {
+		this.familyCard = familyCard;
+	}
+	
+	
+	
 }

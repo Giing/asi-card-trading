@@ -1,40 +1,56 @@
 package com.asi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class CardInstance {
-	private int id_instance;
-	private Card card_instance;
-	private User user_instance;
+	@Id
+	@GeneratedValue
+	@Column
+	private int idInstance;
+	@OneToOne
+	private Card cardInstance;
+	@OneToOne
+	private User userInstance;
 	
 	public CardInstance() {}
-	
-	public CardInstance(int id_instance, Card card_instance, User user_instance) {
+
+	public CardInstance(int idInstance, Card cardInstance, User userInstance) {
 		super();
-		this.id_instance = id_instance;
-		this.card_instance = card_instance;
-		this.user_instance = user_instance;
+		this.idInstance = idInstance;
+		this.cardInstance = cardInstance;
+		this.userInstance = userInstance;
+	}
+
+	public int getIdInstance() {
+		return idInstance;
+	}
+
+	public void setIdInstance(int idInstance) {
+		this.idInstance = idInstance;
+	}
+
+	public Card getCardInstance() {
+		return cardInstance;
+	}
+
+	public void setCardInstance(Card cardInstance) {
+		this.cardInstance = cardInstance;
+	}
+
+	public User getUserInstance() {
+		return userInstance;
+	}
+
+	public void setUserInstance(User userInstance) {
+		this.userInstance = userInstance;
 	}
 	
-	public int getId_instance() {
-		return id_instance;
-	}
-	public void setId_instance(int id_instance) {
-		this.id_instance = id_instance;
-	}
-	public Card getCard_instance() {
-		return card_instance;
-	}
-	public void setCard_instance(Card card_instance) {
-		this.card_instance = card_instance;
-	}
-	public User getUser_instance() {
-		return user_instance;
-	}
-	public void setUser_instance(User user_instance) {
-		this.user_instance = user_instance;
-	}
+	
 	
 	
 }
