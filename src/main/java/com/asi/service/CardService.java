@@ -12,15 +12,15 @@ import com.asi.repository.CardRepository;
 public class CardService {
 
 	@Autowired
-	CardRepository card_repository;
+	CardRepository cardRepository;
 	
 	public void addCard(Card card) {
         System.out.println(card);
-        card_repository.save(card);
+        cardRepository.save(card);
     }
 
 	public Card getCard(int id) {
-        Optional<Card> c = card_repository.findById(id);
+        Optional<Card> c = cardRepository.findById(id);
         if (c.isPresent()) {
 			return c.get();
 		}else {
@@ -28,5 +28,9 @@ public class CardService {
 		}
 
     }
+	
+	public void deleteCard(int idCard) {
+		cardRepository.deleteById(idCard);
+	}
 
 }

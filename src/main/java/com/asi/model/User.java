@@ -1,55 +1,76 @@
 package com.asi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class User {
-	private int id_user;
-	private String name_user;
-	private String surname_user;
-	private double money_user;
-	private String password_user;
+	@Id
+	@GeneratedValue
+	@Column
+	private int idUser;
+	@Column
+	private String nameUser;
+	@Column
+	private String surnameUser;
+	@Column
+	private double moneyUser;
+	@Column
+	private String passwordUser;
 	
 	public User() {
 	}
 	
-	public User(int id_user, String name_user, String surname_user, double money_user, String password_user) {
+	public User(int idUser, String nameUser, String surnameUser, double moneyUser, String passwordUser) {
 		super();
-		this.id_user = id_user;
-		this.name_user = name_user;
-		this.surname_user = surname_user;
-		this.money_user = money_user;
-		this.password_user = password_user;
+		this.idUser = idUser;
+		this.nameUser = nameUser;
+		this.surnameUser = surnameUser;
+		this.moneyUser = moneyUser;
+		this.passwordUser = passwordUser;
+	}
+
+	public int getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+
+	public String getNameUser() {
+		return nameUser;
+	}
+
+	public void setNameUser(String nameUser) {
+		this.nameUser = nameUser;
+	}
+
+	public String getSurnameUser() {
+		return surnameUser;
+	}
+
+	public void setSurnameUser(String surnameUser) {
+		this.surnameUser = surnameUser;
+	}
+
+	public double getMoneyUser() {
+		return moneyUser;
+	}
+
+	public void setMoneyUser(double moneyUser) {
+		this.moneyUser = moneyUser;
+	}
+
+	public String getPasswordUser() {
+		return passwordUser;
+	}
+
+	public void setPasswordUser(String passwordUser) {
+		this.passwordUser = passwordUser;
 	}
 	
-	public int getId_user() {
-		return id_user;
-	}
-	public void setId_user(int id_user) {
-		this.id_user = id_user;
-	}
-	public String getName_user() {
-		return name_user;
-	}
-	public void setName_user(String name_user) {
-		this.name_user = name_user;
-	}
-	public String getSurname_user() {
-		return surname_user;
-	}
-	public void setSurname_user(String surname_user) {
-		this.surname_user = surname_user;
-	}
-	public double getMoney_user() {
-		return money_user;
-	}
-	public void setMoney_user(double money_user) {
-		this.money_user = money_user;
-	}
-	public String getPassword_user() {
-		return password_user;
-	}
-	public void setPassword_user(String password_user) {
-		this.password_user = password_user;
-	}
+	
 }

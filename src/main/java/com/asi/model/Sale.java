@@ -1,56 +1,79 @@
 package com.asi.model;
 
 import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Sale {
-	private int id_sale;
-	private User user_sale;
-	private CardInstance card_instance;
-	private double price_sale;
-	private Date date_sale;
+	@Id
+	@GeneratedValue
+	@Column
+	private int idSale;
+	@OneToOne
+	private User userSale;
+	@OneToOne
+	private CardInstance cardInstance;
+	@Column
+	private double priceSale;
+	@Column
+	private Date dateSale;
 	
-	public Sale() {};
-	
-	public Sale(int id_sale, User user_sale, CardInstance card_instance, double price_sale, Date date_sale) {
+	public Sale() {}
+
+	public Sale(int idSale, User userSale, CardInstance cardInstance, double priceSale, Date dateSale) {
 		super();
-		this.id_sale = id_sale;
-		this.user_sale = user_sale;
-		this.card_instance = card_instance;
-		this.price_sale = price_sale;
-		this.date_sale = date_sale;
+		this.idSale = idSale;
+		this.userSale = userSale;
+		this.cardInstance = cardInstance;
+		this.priceSale = priceSale;
+		this.dateSale = dateSale;
 	}
-	public int getId_sale() {
-		return id_sale;
+
+	public int getIdSale() {
+		return idSale;
 	}
-	public void setId_sale(int id_sale) {
-		this.id_sale = id_sale;
+
+	public void setIdSale(int idSale) {
+		this.idSale = idSale;
 	}
-	public User getUser_sale() {
-		return user_sale;
+
+	public User getUserSale() {
+		return userSale;
 	}
-	public void setUser_sale(User user_sale) {
-		this.user_sale = user_sale;
+
+	public void setUserSale(User userSale) {
+		this.userSale = userSale;
 	}
-	public CardInstance getCard_instance() {
-		return card_instance;
+
+	public CardInstance getCardInstance() {
+		return cardInstance;
 	}
-	public void setCard_instance(CardInstance card_instance) {
-		this.card_instance = card_instance;
+
+	public void setCardInstance(CardInstance cardInstance) {
+		this.cardInstance = cardInstance;
 	}
-	public double getPrice_sale() {
-		return price_sale;
+
+	public double getPriceSale() {
+		return priceSale;
 	}
-	public void setPrice_sale(double price_sale) {
-		this.price_sale = price_sale;
+
+	public void setPriceSale(double priceSale) {
+		this.priceSale = priceSale;
 	}
-	public Date getDate_sale() {
-		return date_sale;
+
+	public Date getDateSale() {
+		return dateSale;
 	}
-	public void setDate_sale(Date date_sale) {
-		this.date_sale = date_sale;
-	}
+
+	public void setDateSale(Date dateSale) {
+		this.dateSale = dateSale;
+	};
+	
 	
 	
 }
