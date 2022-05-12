@@ -1,31 +1,44 @@
 package com.asi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Family {
-	private int id_family;
-	private String name_family;
+	@Id
+	@GeneratedValue
+	@Column
+	private int idFamily;
+	@Column
+	private String nameFamily;
 	
 	public Family() {}
 	
-	public Family(int id_family, String name_family) {
+	public Family(int idFamily, String nameFamily) {
 		super();
-		this.id_family = id_family;
-		this.name_family = name_family;
+		this.idFamily = idFamily;
+		this.nameFamily = nameFamily;
 	}
-	public int getId_family() {
-		return id_family;
+
+	public int getIdFamily() {
+		return idFamily;
 	}
-	public void setId_family(int id_family) {
-		this.id_family = id_family;
+
+	public void setIdFamily(int idFamily) {
+		this.idFamily = idFamily;
 	}
-	public String getName_family() {
-		return name_family;
+
+	public String getNameFamily() {
+		return nameFamily;
 	}
-	public void setName_family(String name_family) {
-		this.name_family = name_family;
+
+	public void setNameFamily(String nameFamily) {
+		this.nameFamily = nameFamily;
 	}
+	
+	
 	
 	
 }

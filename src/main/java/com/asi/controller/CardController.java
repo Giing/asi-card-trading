@@ -17,13 +17,20 @@ public class CardController {
 	@Autowired
 	CardService card_service;
 	
+	@RequestMapping("/index")
+	public String index() {
+		System.out.println("Ca passe !!!");
+		return "Welcome";
+	}
+	
 	@RequestMapping(method=RequestMethod.POST,value="/card/")
 	public void add(@RequestBody Card card) {
+		System.out.println("Oui bonjour j'ai bien reçu la requête");
 		card_service.addCard(card);
 	}
 	
 	//method DELETE ?
-	@RequestMapping(method=RequestMethod.GET,value="/card/{id}")
+	@RequestMapping(method=RequestMethod.DELETE,value="/card/{id}")
 	public void delete(@PathVariable String card_id) {
 		//call repo
 	}
