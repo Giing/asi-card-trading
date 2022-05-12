@@ -1,7 +1,9 @@
 package com.asi.model;
 
 import java.sql.Date;
+import javax.persistence.Entity;
 
+@Entity
 public class Sale {
 	private int id_sale;
 	private User user_sale;
