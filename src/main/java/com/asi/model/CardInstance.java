@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -12,7 +13,7 @@ public class CardInstance {
 	@GeneratedValue
 	@Column
 	private int idInstance;
-	@OneToOne
+	@ManyToOne
 	private Card cardInstance;
 	@OneToOne
 	private User userInstance;

@@ -1,9 +1,13 @@
 package com.asi.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -19,6 +23,8 @@ public class User {
 	private double moneyUser;
 	@Column
 	private String passwordUser;
+	@OneToMany(mappedBy = "userInstance", cascade = {CascadeType.ALL})
+	private List<CardInstance> deck;
 	
 	public User() {
 	}
