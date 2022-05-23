@@ -30,13 +30,13 @@ public class CardController {
 	
 	//method DELETE ?
 	@RequestMapping(method=RequestMethod.DELETE,value="/card/{id}")
-	public void delete(@PathVariable String card_id) {
-		
+	public void delete(@PathVariable int idCard) {
+		cardService.deleteCard(idCard);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/card/{id}")
-	public Card get(@PathVariable int card_id) {
-		return cardService.getCard(card_id);		
+	public Card get(@PathVariable int idCard) {
+		return cardService.getCard(idCard);		
 	}
 
 }
