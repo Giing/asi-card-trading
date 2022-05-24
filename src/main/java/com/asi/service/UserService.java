@@ -36,6 +36,7 @@ public class UserService {
 	
 	public boolean isInDatabase(User user) {
 		Optional<User> userFind = userRepository.findByEmailUser(user.getEmailUser());
+		boolean userfds = userFind.isPresent();
 		return userFind.isPresent();
 	}
 	
@@ -51,7 +52,7 @@ public class UserService {
 				isValid = false;
 			}
 		} else {
-			
+			isValid = false;
 		}
 		return isValid;
 	}

@@ -31,7 +31,7 @@ public class UserController {
 		return "Bonjour utilisateur identifié: " + currentUser.getEmailUser();
 	}
 	
-	@RequestMapping(value = "/user/register", method=RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/api/user/register", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<?>  register(@RequestBody RegisterUserDto userDto) {
 		//Create user 
@@ -44,12 +44,12 @@ public class UserController {
 			// Send response
 			userService.addUser(user);
 			return new ResponseEntity<>("User registred", HttpStatus.OK);
-		}
-		
-		return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
-	@RequestMapping(value = "/user/login", method=RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/api/user/login", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<?> login(@RequestBody LoginUserDto userDto) {
 		User user = userService.getUserByEmail(userDto.email);
