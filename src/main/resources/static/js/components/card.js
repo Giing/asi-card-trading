@@ -6,6 +6,8 @@ class FullCard extends HTMLBindableElement {
         super();
         this.card = card;
         this.isSell = isSell;
+
+        this.cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
     }
 
     bind(callback, name) {
@@ -57,9 +59,9 @@ class FullCard extends HTMLBindableElement {
                             </div>
                             <div class="ui fluid image">
                                 <a class="ui left corner label">
-                                    ${this.card.nameCard}
+                                    ${this.cardDescription.nameCard}
                                 </a>
-                                <img id="cardImgId" class="ui centered image" src="${this.card.img_src}">
+                                <img id="cardImgId" class="ui centered image" src="${this.cardDescription.img_src}">
                             </div>
                         </div>
                     </div>
@@ -67,26 +69,26 @@ class FullCard extends HTMLBindableElement {
                         <div class="ui form tiny">
                             <div class="field">
                                 <label id="cardNameId"></label>
-                                <textarea id="cardDescriptionId" class="overflowHiden" readonly="" rows="2">${this.card.descriptionCard}
+                                <textarea id="cardDescriptionId" class="overflowHiden" readonly="" rows="2">${this.cardDescription.descriptionCard}
                                 </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="content">
-                        <i class="heart outline icon"></i><span id="cardHPId"> HP ${this.card.hpCard}</span>
+                        <i class="heart outline icon"></i><span id="cardHPId"> HP ${this.cardDescription.hpCard}</span>
                         <div class="right floated ">
-                            <span id="cardEnergyId">Energy ${this.card.energyCard}'</span>
+                            <span id="cardEnergyId">Energy ${this.cardDescription.energyCard}'</span>
                             <i class="lightning icon"></i>
             
                         </div>
                     </div>
                     <div class="content">
                         <span class="right floated">
-                            <span id="cardAttackId"> Attack ${this.card.attackCard}</span>
+                            <span id="cardAttackId"> Attack ${this.cardDescription.attackCard}</span>
                             <i class=" wizard icon"></i>
                         </span>
                         <i class="protect icon"></i>
-                        <span id="cardDefenceId">Defense ${this.card.defenceCard}</span>
+                        <span id="cardDefenceId">Defense ${this.cardDescription.defenceCard}</span>
                     </div>
                     <div class="field">
                         <div class="ui left icon input" id="sellButton">

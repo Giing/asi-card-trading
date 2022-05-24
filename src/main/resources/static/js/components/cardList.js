@@ -1,11 +1,12 @@
 import HTMLBindableElement from "./abstract/HTMLBindableElement.js";
 
 class CardList extends HTMLBindableElement {
-    constructor(cards, callback) {
+    constructor(cards, callback, isSell = false) {
         super();
 
         this.cards = cards;
         this.oncardclick = callback;
+        this.isSell = isSell;
     }
 
     onButtonClick(card) {
@@ -29,7 +30,7 @@ class CardList extends HTMLBindableElement {
                             <th>Energy</th>
                             <th>Defence</th>
                             <th>Attack</th>
-                            <th>Price</th>
+                            ${!this.isSell ? '<th>Price</th>' : ''}
                             <th></th>
                         </tr>
                     </thead>
@@ -45,7 +46,7 @@ class CardList extends HTMLBindableElement {
                                 <td>{{energy}}</td>
                                 <td>{{defense}}</td>
                                 <td>{{attack}}</td>
-                                <td>{{price}}$</td>
+                                ${!this.isSell ? '<td>{{price}}$</td>' : ''}
                                 <td>
                                     <div class="ui vertical animated button trigger" tabindex="0">
                                         <div class="hidden content">Sell</div>
@@ -67,21 +68,23 @@ class CardList extends HTMLBindableElement {
         this.cards.forEach(card => {
             const clone = document.importNode(template.content, true);
 
+            const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
+            console.log(card);
             const newContent = clone.firstElementChild.innerHTML
                 .replace(/{{family_src}}/g, card.family_src)
-                .replace(/{{family_name}}/g, card.cardInstance.familyCard.nameFamily)
+                .replace(/{{family_name}}/g, cardDescription.familyCard.familyName)
                 .replace(/{{img_src}}/g, card.img_src)
-                .replace(/{{name}}/g, card.cardInstance.nameCard)
-                .replace(/{{description}}/g, card.cardInstance.descriptionCard)
-                .replace(/{{hp}}/g, card.cardInstance.hpCard)
-                .replace(/{{energy}}/g, card.cardInstance.energyCard)
-                .replace(/{{attack}}/g, card.cardInstance.attackCard)
-                .replace(/{{defense}}/g, card.cardInstance.defenceCard)
-                .replace(/{{price}}/g, card.cardInstance.priceCard)
+                .replace(/{{name}}/g, cardDescription.nameCard)
+                .replace(/{{description}}/g, cardDescription.descriptionCard)
+                .replace(/{{hp}}/g, cardDescription.hp)
+                .replace(/{{energy}}/g, cardDescription.energyCard)
+                .replace(/{{attack}}/g, cardDescription.attackCard)
+                .replace(/{{defense}}/g, cardDescription.defenseCard)
+                .replace(/{{price}}/g, card.priceSale)
             clone.firstElementChild.innerHTML = newContent;
             container.appendChild(clone);
             const trigger = container.lastElementChild.querySelector(".trigger");
-            trigger.addEventListener('click', () => { this.onButtonClick(card.cardInstance) });
+            trigger.addEventListener('click', () => { this.onButtonClick(card) });
         });
     }
 

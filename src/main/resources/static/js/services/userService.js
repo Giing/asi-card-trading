@@ -6,6 +6,7 @@ const user_key = 'user';
 
 const get_user = () => Store.getItem(user_key);
 const get_token = () => get_user()?.token;
+const get_user_id = () => parseInt(get_user()?.id_user);
 
 const root = 'user';
 
@@ -46,6 +47,7 @@ export default {
     },
     get_user,
     get_token,
+    get_user_id,
     isUserLoggedIn() {
         return get_user() != null;
     }

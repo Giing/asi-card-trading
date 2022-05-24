@@ -80,7 +80,6 @@ public class SaleService {
 	
 	//TODO remove test sur User et use getCurrentUser() + utiliser des exceptions
 	public int buy(int idSale, int idUser) {
-		//check si user & sale existe
 		Optional<User> buyer = userRepository.findById(idUser);
 		Optional<Sale> sale = saleRepository.findById(idSale);
 		

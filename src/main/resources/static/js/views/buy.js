@@ -10,7 +10,8 @@ class BuyView extends HTMLElement {
     }
 
     async render() {
-        this.cards = await SaleService.getCardsToSell();
+        this.cards = await SaleService.getSellableCards();
+        console.log(this.cards);
 
         console.log(await SaleService.test())
 
@@ -23,7 +24,7 @@ class BuyView extends HTMLElement {
             </div>
         `;
 
-        this.cardsContainer = new CardList(this.cards, (card) => this.selectCard(card));
+        this.cardsContainer = new CardList(this.cards, (card) => this.selectCard(card), false);
         this.querySelector("#cards").appendChild(this.cardsContainer);
         this.selectedCard = new Card(this.cards[0]);
         this.selectedCard.bindOnButtonClick(() => this.buy())
@@ -34,9 +35,10 @@ class BuyView extends HTMLElement {
         this.selectedCard.setCard(card)
     }
 
-    buy() {
+    async buy() {
         const card = this.selectedCard.card;
-        SaleService.buyCard(card);
+        const transaction = {idCard: card.idCard, idSale: card.idSale}
+		await SaleService.buyCard(transaction);
         this.render()
     }
 

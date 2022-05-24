@@ -20,8 +20,8 @@ class SellView extends HTMLElement {
                 </div>
             </div>
         `;
-
-        this.cardsContainer = new CardList(this.cards, (card) => this.selectCard(card));
+        
+        this.cardsContainer = new CardList(this.cards, (card) => this.selectCard(card), true);
         this.querySelector("#cards").appendChild(this.cardsContainer);
         if ( this.cards.length >=1 ) {
             this.selectedCard = new Card(this.cards[0], true);
@@ -33,15 +33,15 @@ class SellView extends HTMLElement {
     }
 
     selectCard(card) {
-        this.selectedCard.setCard(card)
+        this.selectedCard.setCard(card);
     }
 
     async sell() {
-        const price = this.selectedCard.button.getValue();
+        const priceSale = parseFloat(this.selectedCard.button.getValue());
         const card = this.selectedCard.card;
-
-        await SaleService.sellCard({...card, price});
-        this.render()
+        const transaction = {idCard: card.idInstance, priceSale}
+        await SaleService.sellCard(transaction);
+        this.render();
     }
 
     connectedCallback() {

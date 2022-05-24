@@ -39,23 +39,25 @@ public class SaleController {
 	//TODO enlever user le param user dans les routes quand fct getcurrentUser dispo
 	// error code html
 	
-	@RequestMapping(method=RequestMethod.POST,value="sale/sell/{idCard}/user/{idUser}")
+	@RequestMapping(method=RequestMethod.POST,value="/api/sales/sell")
 	public int sellCard(@RequestBody SaleTransactionDto saleDto) {
-		int code = saleService.sell(saleDto.getIdUser(), saleDto.getIdCard(), saleDto.getPrice());
+		System.out.println(saleDto.getIdSale() + " " + saleDto.getIdUser() + " " + saleDto.getPriceSale());
+		int code = saleService.sell(saleDto.getIdUser(), saleDto.getIdCard(), saleDto.getPriceSale());
 		return code;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="sale/sell/card/{idCard}/user/{idUser}")
+	@RequestMapping(method=RequestMethod.POST,value="/api/sales/buy")
 	public int buyCard(@RequestBody SaleTransactionDto saleDto) {
 		int code = saleService.buy(saleDto.getIdSale(), saleDto.getIdUser());
+		System.out.println(saleDto.getIdSale() + " " + saleDto.getIdUser());
 		return code;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="/sales")
+	@RequestMapping(method=RequestMethod.GET,value="/api/sales")
 	public List<SaleDto> get() {
 		return saleService.getAllSales()
 				.stream()
 				.map(s -> convertToDto(s))
-				.collect(Collectors.toList());		
+				.collect(Collectors.toList());
 	}
 }

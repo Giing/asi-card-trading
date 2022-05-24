@@ -2,17 +2,17 @@ package com.asi.dto;
 
 public class SaleTransactionDto {
 	
-	private double price;
+	private double priceSale;
 	private int idSale;
 	private int idCard;
 	//TODO delete
 	private int idUser;
 	
-	public double getPrice() {
-		return price;
+	public double getPriceSale() {
+		return priceSale;
 	}
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPriceSale(double price) {
+		this.priceSale = price;
 	}
 	public int getIdSale() {
 		return idSale;

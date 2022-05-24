@@ -50,20 +50,17 @@ const card_list = [
 
 ]
 export default {
-    async buyCard(cardId) {
-        const idUser = userService.get_user()?.id_user
-        const response = card//await fetch('api/sale/buy/card/' + idCard + '/user/' + idUser)
+    async buyCard(transaction) {
+        const idUser = userService.get_user_id()
+        const response = await API.post('/sales/buy', {...transaction, idUser});
         return card
     },
-    async sellCard(card) {
-        const idUser = userService.get_user()?.id_user
-        const response = card//await fetch('api/sale/sell/card/' + card.id_card + '/user/' + idUser)
-        return card
+    async sellCard(transaction) {
+        const idUser = userService.get_user_id()
+        const response = await API.post('/sales/sell', {...transaction, idUser});
+        return response.data
     },
-    async getCardsToSell() {
-        return card_list;
-    },
-    async test() {
-        return API.get('/test');
+    async getSellableCards() { 
+        return (await API.get('/sales')).data;
     }
 }
