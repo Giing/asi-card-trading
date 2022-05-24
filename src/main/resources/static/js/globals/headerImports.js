@@ -1,5 +1,5 @@
 const JSScripts = [
-  'https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js',
+  'lib/axios.min.js',
   'lib/jquery-3.3.1.min.js',
   'lib/Semantic-UI-CSS-master/semantic.js'
 ]

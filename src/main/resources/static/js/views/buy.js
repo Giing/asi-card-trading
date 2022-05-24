@@ -2,6 +2,7 @@ import CardList from "../components/cardList.js"
 import Card from "../components/card.js"
 
 import SaleService from "../services/saleService.js";
+import userService from "../services/userService.js";
 
 class BuyView extends HTMLElement {
     constructor() {
@@ -10,6 +11,8 @@ class BuyView extends HTMLElement {
 
     async render() {
         this.cards = await SaleService.getCardsToSell();
+
+        console.log(await SaleService.test())
 
         this.innerHTML = `
             <div class="ui grid">
@@ -33,7 +36,6 @@ class BuyView extends HTMLElement {
 
     buy() {
         const card = this.selectedCard.card;
-
         SaleService.buyCard(card);
     }
 

@@ -10,8 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @Entity
-@Table(name="Users")
 public class User {
 	@Id
 	@GeneratedValue
@@ -21,6 +22,8 @@ public class User {
 	private String nameUser;
 	@Column
 	private String surnameUser;
+	@Column(unique=true)
+	private String emailUser;
 	@Column
 	private double moneyUser;
 	@Column
@@ -31,11 +34,12 @@ public class User {
 	public User() {
 	}
 	
-	public User(int idUser, String nameUser, String surnameUser, double moneyUser, String passwordUser) {
+	public User(int idUser, String nameUser, String surnameUser, String emailUser, double moneyUser, String passwordUser) {
 		super();
 		this.idUser = idUser;
 		this.nameUser = nameUser;
 		this.surnameUser = surnameUser;
+		this.emailUser = emailUser;
 		this.moneyUser = moneyUser;
 		this.passwordUser = passwordUser;
 	}
@@ -63,6 +67,14 @@ public class User {
 	public void setSurnameUser(String surnameUser) {
 		this.surnameUser = surnameUser;
 	}
+	
+	public String getEmailUser() {
+		return emailUser;
+	}
+
+	public void setEmailUser(String emailUser) {
+		this.emailUser = emailUser;
+	}
 
 	public double getMoneyUser() {
 		return moneyUser;
@@ -78,6 +90,10 @@ public class User {
 
 	public void setPasswordUser(String passwordUser) {
 		this.passwordUser = passwordUser;
+	}
+	
+	public void hashPassword() {
+		this.passwordUser = BCrypt.hashpw(this.passwordUser, BCrypt.gensalt());
 	}
 	
 	

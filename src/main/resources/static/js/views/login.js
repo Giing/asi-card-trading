@@ -43,9 +43,9 @@ class LoginForm extends HTMLBindableElement {
     }
 
     async submit() {
-        const login = this.emailInput.getValue()
+        const email = this.emailInput.getValue()
         const password = this.pwdInput.getValue()
-        const isLogged = await userService.login({ login, password })
+        const isLogged = await userService.login({ email, password })
 
         if (isLogged) {
             URL.redirect('home')

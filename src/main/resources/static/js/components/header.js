@@ -44,7 +44,7 @@ class Header extends HTMLBindableElement {
                 <h3 class="ui right floated header">
                     <i class="user circle outline icon"></i>
                     <div class="content">
-                        <span id="userNameId">${user ? user.user_name : ''}</span>
+                        <span id="userNameId">${user ? user.name + ' ' + user.surname : ''}</span>
                         <div class="sub header"><span>${user ? user.money : 0}</span>$</div>
                     </div>
                 </h3>
