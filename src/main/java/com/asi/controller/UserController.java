@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.asi.model.User;
 import com.asi.dto.LoginUserDto;
 import com.asi.dto.ProfilUserDto;
+import com.asi.dto.RegisterUserDto;
 import com.asi.model.Card;
 import com.asi.service.UserService;
 
@@ -21,9 +22,29 @@ public class UserController {
 	UserService userService;
 	
 	@RequestMapping("/test")
-	public String index() {
+	public String test() {
 		System.out.println("Ca passe !!!");
-		return "Welcome Authenticated user";
+		return "Bonjour le monde !";
+	}
+	
+	@RequestMapping(value = "/user/register", method=RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<?>  register(@RequestBody RegisterUserDto user) {
+		System.out.println("Youhou");
+		boolean userIsRegistred= false;
+		userIsRegistred = userService.isInDatabase(user);
+		if(!userIsRegistred) {
+			userIsRegistred = userService.isValidUserRegistration(user);
+			if (userIsRegistred) {
+				userService.addUser(user);
+			}
+		}
+		
+		if (userIsRegistred) {
+			return new ResponseEntity<>("User registred", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
 	}
 	
 	@RequestMapping(value = "/user/login", method=RequestMethod.POST, produces = "application/json")

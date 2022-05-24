@@ -12,7 +12,7 @@ const root = 'user';
 
 export default {
     async register(data) {
-        const reponse = {"status" : 400}// await fetch('api/user/register', data)
+        const reponse = await API.post(`${root}/register`, data)
         return reponse.status == 200
     },
     async login(data) {
@@ -29,6 +29,7 @@ export default {
     },
     async logout() {
         try {
+            const response = {"id_user": "0","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
             Store.removeItem(user_key);
             window.location.reload(true);
             return true;

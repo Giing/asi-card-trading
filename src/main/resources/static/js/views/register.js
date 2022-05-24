@@ -7,6 +7,7 @@ class RegisterForm extends HTMLBindableElement {
     constructor() {
         super();
         this.nameInput = new InputCustom("text","name","Name");
+		this.emailInput = new InputCustom("email","email","Email");
         this.surnameInput = new InputCustom("text","surname","Surname");
         this.pwdInput = new InputCustom("password","password","password");
         this.repwdInput = new InputCustom("password","repassword","RePassword");
@@ -17,6 +18,12 @@ class RegisterForm extends HTMLBindableElement {
             <div class="ui large form">
                 <div class="ui stacked segment">
                     <span id="error" class="error"></span>
+					<div class="field">
+                        <div id="emailRegisterContainer" class="ui left icon input">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+
                     <div class="field">
                         <div id="nameRegisterContainer" class="ui left icon input">
                             <i class="user icon"></i>
@@ -29,7 +36,7 @@ class RegisterForm extends HTMLBindableElement {
                     </div>
                     <div class="field">
                         <div id="passwordRegisterContainer" class="ui left icon input">
-                            <i class="user icon"></i>
+                            <i class="lock icon"></i>
                         </div>
                     </div>
                     <div class="field">
@@ -37,7 +44,7 @@ class RegisterForm extends HTMLBindableElement {
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <button class="ui fluid large teal submit button" onclick="${this.bind(() => this.submit(),"login")}">Login</button>
+                    <button class="ui fluid large teal submit button" onclick="${this.bind(() => this.submit(),"login")}">Register</button>
                 </div>
 
                 <div class="ui error message"></div>
@@ -46,6 +53,7 @@ class RegisterForm extends HTMLBindableElement {
       `;
 
       this.querySelector("#nameRegisterContainer").appendChild(this.nameInput);
+	  this.querySelector("#emailRegisterContainer").appendChild(this.emailInput);
       this.querySelector("#surnameRegisterContainer").appendChild(this.surnameInput);
       this.querySelector("#passwordRegisterContainer").appendChild(this.pwdInput);
       this.querySelector("#RePasswordRegisterContainer").appendChild(this.repwdInput);
@@ -59,15 +67,17 @@ class RegisterForm extends HTMLBindableElement {
 
     async submit() {
         const name = this.nameInput.getValue()
+		const email = this.emailInput.getValue()
         const surname = this.surnameInput.getValue()
-        const pwd = this.pwdInput.getValue()
-        const repwd = this.repwdInput.getValue()
+        const password = this.pwdInput.getValue()
+        const passwordConfirm = this.repwdInput.getValue()
 
         const isRegistred = await userService.register({
+			email,
             name,
             surname,
-            pwd,
-            repwd
+            password,
+            passwordConfirm
         })
         
         if (isRegistred) {
