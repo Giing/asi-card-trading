@@ -2,6 +2,7 @@ import CardList from "../components/cardList.js"
 import Card from "../components/card.js"
 
 import SaleService from "../services/saleService.js";
+import userService from "../services/userService.js";
 
 class BuyView extends HTMLElement {
     constructor() {
@@ -9,6 +10,7 @@ class BuyView extends HTMLElement {
     }
 
     async render() {
+        userService.login({})
         this.cards = await SaleService.getCardsToSell();
 
         this.innerHTML = `

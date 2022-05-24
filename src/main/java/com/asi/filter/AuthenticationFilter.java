@@ -20,16 +20,20 @@ import java.util.List;
 @Order(1)
 public class AuthenticationFilter extends OncePerRequestFilter {
 	
-	private List<String> excludeUrls = Arrays.asList("/test");
+	private List<String> excludeUrls = Arrays.asList("/user/login");
+	private String token = "Bearer zaafzdfhaezjfhaoezhfoahfdôU";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		String token = request.getHeader("Authorization");
-		LOG.info("User token: ", token);
-		filterChain.doFilter(request, response);
-		LOG.info("Committing Transaction for req :{}", req.getRequestURI());
+		
+		String authToken = request.getHeader("Authorization");
+		if(token == authToken) {			
+			filterChain.doFilter(request, response);
+		} else {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED");
+		}
 		
 	}
 	
@@ -39,7 +43,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	protected boolean shouldNotFilter(HttpServletRequest request)
 	  throws ServletException {
 	    String path = request.getRequestURI();
-	    return excludeUrls.contains(path) || path.matches(".*(css|jpg|png|gif|js|html)");
+	    return excludeUrls.contains(path) || path.matches(".*(css|jpg|png|gif|js|html|ico|woff2|map)");
 	}
 	
 }

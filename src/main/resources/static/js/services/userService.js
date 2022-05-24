@@ -6,6 +6,8 @@ const user_key = 'user';
 const get_user = () => Store.getItem(user_key);
 const get_token = () => get_user()?.token;
 
+const root = 'user';
+
 
 export default {
     async register(data) {
@@ -14,8 +16,11 @@ export default {
     },
     async login(data) {
         try {
-            const response = {"id_user": "aezazeazeae","user_name": data.login, "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/login', data)
-            Store.setItem(user_key, response);
+            const response = await API.post(`${root}/login`, data);
+            console.log(response)
+            const user = {"id_user": "aezazeazeae","user_name": data.login, "money": 9000, "token": response.data}
+            Store.setItem(user_key, user);
+            API.updateBearer()
             return true;
         } catch (error) {
             return false;
