@@ -1,5 +1,7 @@
 package com.asi.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,12 @@ public class CardService {
 		}else {
 			return null;
 		}
-
     }
+	
+	public List<Card> getAll() {
+		List<Card> cards = (ArrayList<Card>) cardRepository.findAll();
+		return cards;
+	}
 	
 	public void deleteCard(int idCard) {
 		cardRepository.deleteById(idCard);

@@ -51,7 +51,7 @@ export default {
         return response;
     },
     async getCardById(idCard) {
-        const response = card_list[0] // await fetch('api/card/' + idCard)
-        return response;
+        const response = await API.get('api/card/' + idCard)
+        return response.data;
     }
 }
