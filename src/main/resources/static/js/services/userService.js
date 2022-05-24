@@ -11,7 +11,7 @@ const root = 'user';
 
 export default {
     async register(data) {
-        const reponse = {"status" : 400}// await fetch('api/user/register', data)
+        const reponse = await API.post(`${root}/register`, data)
         return reponse.status == 200
     },
     async login(data) {

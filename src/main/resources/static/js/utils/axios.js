@@ -11,7 +11,7 @@ const instance = axios.create({
 // handle 401 Unhautorized resource access
 instance.interceptors.response.use(undefined, function (error) {
   if(error.response.status === 401) {
-    userService.logout();
+    //userService.logout();
     return Promise.reject(error);
   }
 });

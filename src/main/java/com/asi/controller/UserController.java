@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.asi.model.User;
 import com.asi.dto.LoginUserDto;
+import com.asi.dto.RegisterUserDto;
 import com.asi.model.Card;
 import com.asi.service.UserService;
 
@@ -25,15 +26,26 @@ public class UserController {
 		return "Bonjour le monde !";
 	}
 	
-	@RequestMapping("api/user/register")
-	public boolean register(@RequestBody User user) {
-		
-		if(!userService.isInDatabase(user)) {
-			userService.addUser(user);
+	@RequestMapping(value = "/user/register", method=RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<?>  register(@RequestBody RegisterUserDto user) {
+		System.out.println("Youhou");
+		boolean userIsRegistred= false;
+		userIsRegistred = userService.isInDatabase(user);
+		if(!userIsRegistred) {
+			userIsRegistred = userService.isValidUserRegistration(user);
+			if (userIsRegistred) {
+				userService.addUser(user);
+			}
 		}
 		
-		return true; 
+		if (userIsRegistred) {
+			return new ResponseEntity<>("User registred", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
 	}
+	
 	@RequestMapping(value = "/user/login", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<?> login(@RequestBody LoginUserDto user) {
