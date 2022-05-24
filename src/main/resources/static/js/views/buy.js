@@ -13,8 +13,6 @@ class BuyView extends HTMLElement {
         this.cards = await SaleService.getSellableCards();
         console.log(this.cards);
 
-        console.log(await SaleService.test())
-
         this.innerHTML = `
             <div class="ui grid">
                 <div class="ten wide column" id="cards">
@@ -32,6 +30,7 @@ class BuyView extends HTMLElement {
     }
 
     selectCard(card) {
+		console.log(card)
         this.selectedCard.setCard(card)
     }
 

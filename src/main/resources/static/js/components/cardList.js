@@ -10,6 +10,7 @@ class CardList extends HTMLBindableElement {
     }
 
     onButtonClick(card) {
+		console.log(card)
         this.oncardclick(card);
     }
 
@@ -67,24 +68,25 @@ class CardList extends HTMLBindableElement {
 
         this.cards.forEach(card => {
             const clone = document.importNode(template.content, true);
+			const cardClone	= {...card}; 
 
             const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
             console.log(card);
             const newContent = clone.firstElementChild.innerHTML
                 .replace(/{{family_src}}/g, card.family_src)
-                .replace(/{{family_name}}/g, cardDescription.familyCard.familyName)
+                .replace(/{{family_name}}/g, cardDescription.familyCard.nameFamily)
                 .replace(/{{img_src}}/g, card.img_src)
                 .replace(/{{name}}/g, cardDescription.nameCard)
                 .replace(/{{description}}/g, cardDescription.descriptionCard)
-                .replace(/{{hp}}/g, cardDescription.hp)
+                .replace(/{{hp}}/g, cardDescription.hpCard)
                 .replace(/{{energy}}/g, cardDescription.energyCard)
                 .replace(/{{attack}}/g, cardDescription.attackCard)
-                .replace(/{{defense}}/g, cardDescription.defenseCard)
+                .replace(/{{defense}}/g, cardDescription.defenceCard)
                 .replace(/{{price}}/g, card.priceSale)
             clone.firstElementChild.innerHTML = newContent;
             container.appendChild(clone);
             const trigger = container.lastElementChild.querySelector(".trigger");
-            trigger.addEventListener('click', () => { this.onButtonClick(card) });
+            trigger.addEventListener('click', () => { this.onButtonClick(cardClone) });
         });
     }
 

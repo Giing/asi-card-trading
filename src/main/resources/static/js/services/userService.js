@@ -6,7 +6,7 @@ const user_key = 'user';
 
 const get_user = () => Store.getItem(user_key);
 const get_token = () => get_user()?.token;
-const get_user_id = () => parseInt(get_user()?.id_user);
+const get_user_id = () => parseInt(get_user()?.idUser);
 
 const root = 'user';
 

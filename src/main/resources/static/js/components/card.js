@@ -118,6 +118,7 @@ class FullCard extends HTMLBindableElement {
 
     setCard(newCard) {
         this.card = newCard;
+		this.cardDescription = newCard.cardInstance !== undefined ? newCard.cardInstance : newCard.card;
         this.render();
     }  
 }

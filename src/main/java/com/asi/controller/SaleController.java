@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +54,7 @@ public class SaleController {
 		return code;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value="/api/sales")
+	@GetMapping("/api/sales")
 	public List<SaleDto> get() {
 		return saleService.getAllSales()
 				.stream()

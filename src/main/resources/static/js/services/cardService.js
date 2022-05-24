@@ -43,7 +43,7 @@ export default {
         if (idUser === undefined) {
             idUser = userService.get_user().idUser
         }
-        const response = await API.get('api/cards/users/' + idUser)
+        const response = await API.get('/cards/users/' + idUser)
         return response.data;
     },
     async getAllCard() {
@@ -51,7 +51,7 @@ export default {
         return response;
     },
     async getCardById(idCard) {
-        const response = await API.get('api/card/' + idCard)
+        const response = await API.get('/card/' + idCard)
         return response.data;
     }
 }
