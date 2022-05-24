@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +32,10 @@ public class CardInstanceController {
 	@GetMapping("/api/cards/users/{idUser}")
 	public List<CardInstanceDto> getUserCards(@PathVariable int idUser) {
 		
-		System.out.println("Requête : Toutes les cartes de l'utilisateur");
 		List<CardInstance> cards = cardInstanceService.getCardsByUser(idUser);
+		
+		if (cards.isEmpty())
+			throw new RuntimeException("Ressource not found");
 		
 		return cards.stream()
 				.map(this::convertToDto)
