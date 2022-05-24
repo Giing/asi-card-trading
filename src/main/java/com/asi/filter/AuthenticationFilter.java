@@ -58,7 +58,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	protected boolean shouldNotFilter(HttpServletRequest request)
 	  throws ServletException {
 	    String path = request.getRequestURI();
-	    return excludeUrls.contains(path) || path.matches(".*(css|jpg|png|gif|js|html|ico|woff2|map)");
+	    return excludeUrls.contains(path) || path.matches(".*(css|jpg|png|gif|js|html|ico|woff2|map|jsp|do)");
 	}
 	
 	private boolean isTokenValid(String token) {
