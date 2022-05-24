@@ -1,5 +1,6 @@
 package com.asi.dto;
 
-public class UserDto {
-	
+public class LoginUserDto {
+	public String email;
+	public String password;
 }

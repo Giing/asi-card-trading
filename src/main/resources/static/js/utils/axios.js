@@ -1,5 +1,7 @@
+import userService from "../services/userService.js";
+
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "http://localhost:8080/",
   timeout: 3000,
   headers: {
     Authorization: ''
@@ -9,7 +11,7 @@ const instance = axios.create({
 // handle 401 Unhautorized resource access
 instance.interceptors.response.use(undefined, function (error) {
   if(error.response.status === 401) {
-    UserService.logout();
+    userService.logout();
     return Promise.reject(error);
   }
 });
@@ -17,7 +19,7 @@ instance.interceptors.response.use(undefined, function (error) {
 export default instance;
 
 export function updateBearer(){
-  const token = UserService.get_token();
+  const token = userService.get_token();
   if(token) {
     instance.defaults.headers.Authorization = `Bearer ${token}`;
   } else {
