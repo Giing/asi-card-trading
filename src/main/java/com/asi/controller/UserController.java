@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.asi.dto.LoginUserDto;
+import com.asi.dto.ProfilUserDto;
 import com.asi.model.Card;
 import com.asi.service.UserService;
 
@@ -19,6 +20,12 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@RequestMapping("/test")
+	public String index() {
+		System.out.println("Ca passe !!!");
+		return "Welcome Authenticated user";
+	}
+	
 	@RequestMapping(value = "/user/login", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<?> login(@RequestBody LoginUserDto user) {
@@ -26,9 +33,12 @@ public class UserController {
 		String token = userService.login(user);
 
 	    if(token != null) {
-	        return new ResponseEntity<>(token, HttpStatus.OK);
+	    	ProfilUserDto profilUserDto = modelMapper.map(user, ProfilUserDto.class);
+	    	profilUserDto.
+			
+	        return new ResponseEntity<>(profilUserDto, HttpStatus.OK);
 	    }
 	    
-	    return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+	    return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
 	} 
 }
