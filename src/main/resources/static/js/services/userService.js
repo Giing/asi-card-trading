@@ -14,7 +14,7 @@ export default {
     },
     async login(data) {
         try {
-            const response = {"id_user": "aezazeazeae","user_name": data.login, "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/login', data)
+            const response = {"id_user": "0","user_name": data.login, "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/login', data)
             Store.setItem(user_key, response);
             return true;
         } catch (error) {
@@ -23,7 +23,7 @@ export default {
     },
     async logout() {
         try {
-            const response = {"id_user": "aezazeazeae","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
+            const response = {"id_user": "0","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
             Store.removeItem(user_key);
             window.location.reload(true)
             return true;

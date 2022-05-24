@@ -1,5 +1,6 @@
 package com.asi.service;
 
+import java.util.ArrayList;  
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,6 @@ public class CardInstanceService {
 			if (oCardInstance.isPresent())
 				return oCardInstance.get();
 		}
-		return null;
+		return new ArrayList<CardInstance>();
 	}
 }
