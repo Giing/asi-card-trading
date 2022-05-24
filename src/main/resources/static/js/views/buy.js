@@ -10,8 +10,9 @@ class BuyView extends HTMLElement {
     }
 
     async render() {
-        userService.login({})
         this.cards = await SaleService.getCardsToSell();
+
+        console.log(await SaleService.test())
 
         this.innerHTML = `
             <div class="ui grid">
@@ -35,7 +36,6 @@ class BuyView extends HTMLElement {
 
     buy() {
         const card = this.selectedCard.card;
-
         SaleService.buyCard(card);
     }
 

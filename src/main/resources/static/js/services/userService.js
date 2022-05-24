@@ -1,5 +1,6 @@
 import Store from "../utils/store.js"; 
 import API from "../utils/axios.js";
+import {updateToken} from "../utils/axios.js";
 
 const user_key = 'user';
 
@@ -20,10 +21,10 @@ export default {
     async login(data) {
         try {
             const response = await API.post(`${root}/login`, data);
-            console.log(response)
-            const user = {"id_user": "aezazeazeae","user_name": data.login, "money": 9000, "token": response.data}
+            const user = response.data;
             Store.setItem(user_key, user);
-            API.updateBearer()
+            updateToken()
+
             return true;
         } catch (error) {
             return false;
@@ -33,7 +34,7 @@ export default {
         try {
             const response = {"id_user": "0","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
             Store.removeItem(user_key);
-            window.location.reload(true)
+            window.location.reload(true);
             return true;
         } catch (error) {
             return false;

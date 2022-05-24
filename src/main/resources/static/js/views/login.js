@@ -43,8 +43,8 @@ class LoginForm extends HTMLBindableElement {
     }
 
     async submit() {
-        const email = "mathis.figuet@orange.fr"
-        const password = "test"
+        const email = this.emailInput.getValue()
+        const password = this.pwdInput.getValue()
         const isLogged = await userService.login({ email, password })
 
         if (isLogged) {

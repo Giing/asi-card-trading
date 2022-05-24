@@ -1,5 +1,6 @@
 package com.asi.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.asi.model.User;
 import com.asi.dto.LoginUserDto;
+import com.asi.dto.ProfilUserDto;
 import com.asi.dto.RegisterUserDto;
 import com.asi.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -23,10 +25,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	ModelMapper modelMapper;
+	
 	@RequestMapping("/test")
 	public String test() {
-		System.out.println("Ca passe !!!");
-		return "Bonjour le monde !";
+		User currentUser = userService.getRequestUser();
+		return "Bonjour utilisateur identifié: " + currentUser.getEmailUser();
 	}
 	
 	@RequestMapping(value = "/user/register", method=RequestMethod.POST, produces = "application/json")
@@ -49,15 +54,21 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/login", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<?> login(@RequestBody LoginUserDto user) {
-
-		String token = userService.login(user);
-
-	    if(token != null) {
-	        return new ResponseEntity<>(token, HttpStatus.OK);
-	    }
+	public ResponseEntity<?> login(@RequestBody LoginUserDto userDto) {
+		User user = userService.getUserByEmail(userDto.email);
+		
+		if(user != null) {			
+			String token = userService.login(user, userDto.password);
+			
+			if(token != null) {
+				ProfilUserDto profilUserDto = modelMapper.map(user, ProfilUserDto.class);
+				profilUserDto.setToken(token);
+				
+				return new ResponseEntity<>(profilUserDto, HttpStatus.OK);
+			}
+		}
 	    
-	    return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+	    return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
 	} 
 	
 	private User convertToEntity(RegisterUserDto registerUserDto) {

@@ -1,5 +1,12 @@
 package com.asi.service;
 
+import java.time.Instant;
+import java.util.Date;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,11 +14,19 @@ import com.asi.dto.LoginUserDto;
 import com.asi.model.User;
 import com.asi.repository.UserRepository;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.TextCodec;
+
 @Service
 public class UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	private HttpServletRequest request;
 	
 	public void addUser(User user) {
 		
@@ -20,9 +35,9 @@ public class UserService {
 	}
 	
 	public boolean isInDatabase(User user) {
-		User userFind = userRepository.findByEmailUser(user.getEmailUser());
-		System.out.println(userFind);
-		return userFind != null;
+		Optional<User> user = userRepository.findByEmailUser(user.getEmailUser());
+		System.out.println(userDto);
+		return user.isPresent();
 	}
 	
 	public boolean isValidUserRegistration(User user) {
@@ -46,13 +61,51 @@ public class UserService {
 		return isValid;
 	}
 	
-	public String login(LoginUserDto userDto) {
-		User user = userRepository.findByEmailUser(userDto.email);
-		
-		if(user != null && user.getPasswordUser() == userDto.password) {
-			return "";
+	public String login(User user, String password) {
+		if(user.getPasswordUser().equals(password)) {
+			return createTokenFromUser(user);
 		} else {
 			return null;
 		}
     }
+	
+	public User getUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmailUser(email);
+		if(user.isPresent()) {
+			return user.get();
+		} else {
+			return null;
+		}
+	}
+	
+	public User getRequestUser() {
+		String authToken = request.getHeader("Authorization");
+		
+		if(authToken == null || authToken.isEmpty()) {			
+			return null;
+		}
+		
+		String email = Jwts.parser()
+				.setSigningKey(TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E="))
+				.parseClaimsJws(authToken)
+				.getBody()
+				.getSubject();
+		
+		return getUserByEmail(email);
+	}
+	
+	private String createTokenFromUser(User user) {
+		return Jwts.builder()
+			  .setIssuer("CardTrading")
+			  .setSubject(user.getEmailUser())
+			  .claim("fullName", user.getNameUser() + " " + user.getSurnameUser())
+			  .claim("scope", "user")
+			  .setIssuedAt(Date.from(Instant.ofEpochSecond(1466796822L)))
+			  .setExpiration(Date.from(Instant.ofEpochSecond(4622470422L)))
+			  .signWith(
+			    SignatureAlgorithm.HS256,
+			    TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
+			  )
+			  .compact();
+	}
 }

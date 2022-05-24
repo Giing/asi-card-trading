@@ -62,5 +62,8 @@ export default {
     },
     async getCardsToSell() {
         return card_list;
+    },
+    async test() {
+        return API.get('/test');
     }
 }
