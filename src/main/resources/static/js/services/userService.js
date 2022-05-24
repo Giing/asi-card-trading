@@ -28,7 +28,7 @@ export default {
     },
     async logout() {
         try {
-            const response = {"id_user": "aezazeazeae","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
+            const response = {"id_user": "0","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
             Store.removeItem(user_key);
             window.location.reload(true)
             return true;
