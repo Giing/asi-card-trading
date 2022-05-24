@@ -2,7 +2,7 @@ import userService from "../services/userService.js";
 import Store from "./store.js";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "http://localhost:8080/api/",
   timeout: 3000,
   headers: {
     Authorization: Store.getItem('user')?.token

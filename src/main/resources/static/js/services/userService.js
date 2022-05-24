@@ -15,7 +15,7 @@ export default {
     async register(data) {
         try {
             if (data.passwordUser === data.passwordConfirm) {
-                const reponse = await API.post(`/api/${root}/register`, data)
+                const reponse = await API.post(`${root}/register`, data)
                 return reponse.status == 200
             }
             return false;
@@ -25,7 +25,7 @@ export default {
     },
     async login(data) {
         try {
-            const response = await API.post(`/api/${root}/login`, data);
+            const response = await API.post(`${root}/login`, data);
             const user = response.data;
             Store.setItem(user_key, user);
             updateToken()
