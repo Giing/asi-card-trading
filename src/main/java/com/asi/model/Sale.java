@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 public class Sale {
 	@Id
@@ -20,7 +22,8 @@ public class Sale {
 	private CardInstance cardInstance;
 	@Column
 	private double priceSale;
-	@Column
+	@Column(nullable = false, updatable = false)
+	@CreationTimestamp
 	private Date dateSale;
 	
 	public Sale() {}
@@ -32,6 +35,13 @@ public class Sale {
 		this.cardInstance = cardInstance;
 		this.priceSale = priceSale;
 		this.dateSale = dateSale;
+	}
+	
+	public Sale(User userSale, CardInstance cardInstance, double priceSale) {
+		super();
+		this.userSale = userSale;
+		this.cardInstance = cardInstance;
+		this.priceSale = priceSale;
 	}
 
 	public int getIdSale() {

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Card {
@@ -26,17 +25,20 @@ public class Card {
 	private int attackCard;
 	@Column
 	private int defenceCard;
+	@Column
+	private String sourceUrlCard;
 	@ManyToOne
 	private Family familyCard;
 	
 	public Card() {}
 
-	public Card(int idCard, String nameCard, String descriptionCard, String affinityCard, int energyCard) {
+	public Card(int idCard, String nameCard, String descriptionCard, String affinityCard, int energyCard, String sourceUrlCard) {
 		super();
 		this.idCard = idCard;
 		this.nameCard = nameCard;
 		this.descriptionCard = descriptionCard;
 		this.affinityCard = affinityCard;
+		this.sourceUrlCard = sourceUrlCard;
 		this.energyCard = energyCard;
 	}
 
@@ -78,6 +80,14 @@ public class Card {
 
 	public void setEnergyCard(int energyCard) {
 		this.energyCard = energyCard;
+	}
+
+	public String getSourceUrlCard() {
+		return sourceUrlCard;
+	}
+
+	public void setSourceUrlCard(String sourceUrlCard) {
+		this.sourceUrlCard = sourceUrlCard;
 	}
 
 	public Family getFamilyCard() {
