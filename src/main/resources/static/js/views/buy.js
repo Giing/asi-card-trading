@@ -37,6 +37,7 @@ class BuyView extends HTMLElement {
     buy() {
         const card = this.selectedCard.card;
         SaleService.buyCard(card);
+        this.render()
     }
 
     connectedCallback() {

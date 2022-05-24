@@ -23,7 +23,11 @@ class SellView extends HTMLElement {
 
         this.cardsContainer = new CardList(this.cards, (card) => this.selectCard(card));
         this.querySelector("#cards").appendChild(this.cardsContainer);
-        this.selectedCard = new Card(this.cards[0], true);
+        if ( this.cards.length >=1 ) {
+            this.selectedCard = new Card(this.cards[0], true);
+        } else {
+            this.selectedCard = new Card(undefined, true);
+        }
         this.selectedCard.bindOnButtonClick(() => this.sell())
         this.querySelector("#selectedCard").appendChild(this.selectedCard);
     }
@@ -37,6 +41,7 @@ class SellView extends HTMLElement {
         const card = this.selectedCard.card;
 
         await SaleService.sellCard({...card, price});
+        this.render()
     }
 
     connectedCallback() {

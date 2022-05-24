@@ -21,6 +21,8 @@ class FullCard extends HTMLBindableElement {
     }
 
     render() {
+        if (this.card === undefined)
+            return ;
         this.innerHTML = `
             <!------------------------------------------------------------------------->
             <!--    ----------------------------- CARD ----------------------------- -->
@@ -93,7 +95,7 @@ class FullCard extends HTMLBindableElement {
                     </div>
                     <div class="ui bottom attached button" onclick="${this.bind(() => this.onButtonClick(),"onCardButtonClick")}">
                         <i class="money icon"></i>
-                        Sell
+                        ${this.isSell ? "Sell" : "Buy"}
                     </div>
                 </div>
             </div>
