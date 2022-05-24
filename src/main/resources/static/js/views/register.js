@@ -66,17 +66,17 @@ class RegisterForm extends HTMLBindableElement {
     }
 
     async submit() {
-        const name = this.nameInput.getValue()
-		const email = this.emailInput.getValue()
-        const surname = this.surnameInput.getValue()
-        const password = this.pwdInput.getValue()
+        const nameUser = this.nameInput.getValue()
+		const emailUser = this.emailInput.getValue()
+        const surnameUser = this.surnameInput.getValue()
+        const passwordUser = this.pwdInput.getValue()
         const passwordConfirm = this.repwdInput.getValue()
 
         const isRegistred = await userService.register({
-			email,
-            name,
-            surname,
-            password,
+			emailUser,
+            nameUser,
+            surnameUser,
+            passwordUser,
             passwordConfirm
         })
         

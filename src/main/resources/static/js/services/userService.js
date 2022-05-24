@@ -11,8 +11,11 @@ const root = 'user';
 
 export default {
     async register(data) {
-        const reponse = await API.post(`${root}/register`, data)
-        return reponse.status == 200
+		if (data.passwordUser === data.passwordConfirm) {
+			const reponse = await API.post(`${root}/register`, data)
+        	return reponse.status == 200
+		}
+		return false;
     },
     async login(data) {
         try {

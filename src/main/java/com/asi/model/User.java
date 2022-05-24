@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 @Entity
-@Table(name="Users")
+//@Table(name="Users")
 public class User {
 	@Id
 	@GeneratedValue
@@ -89,6 +91,10 @@ public class User {
 
 	public void setPasswordUser(String passwordUser) {
 		this.passwordUser = passwordUser;
+	}
+	
+	public void hashPassword() {
+		this.passwordUser = BCrypt.hashpw(this.passwordUser, BCrypt.gensalt());
 	}
 	
 	

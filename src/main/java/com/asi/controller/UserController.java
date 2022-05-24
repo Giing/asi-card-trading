@@ -3,7 +3,6 @@ package com.asi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.asi.model.User;
 import com.asi.dto.LoginUserDto;
 import com.asi.dto.RegisterUserDto;
-import com.asi.model.Card;
 import com.asi.service.UserService;
+import org.modelmapper.ModelMapper;
 
 @RestController
 public class UserController {
+	
+	@Autowired
+	ModelMapper modelMapper;
+	
 	@Autowired
 	UserService userService;
 	
@@ -28,18 +31,16 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/register", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<?>  register(@RequestBody RegisterUserDto user) {
-		System.out.println("Youhou");
-		boolean userIsRegistred= false;
-		userIsRegistred = userService.isInDatabase(user);
-		if(!userIsRegistred) {
-			userIsRegistred = userService.isValidUserRegistration(user);
-			if (userIsRegistred) {
-				userService.addUser(user);
-			}
-		}
+	public ResponseEntity<?>  register(@RequestBody RegisterUserDto userDto) {
+		//Create user 
+		User user = convertToEntity(userDto);
+		user.setMoneyUser(0);
+		user.hashPassword();
 		
-		if (userIsRegistred) {
+
+		if (userService.isValidUserRegistration(user)) {
+			// Send response
+			userService.addUser(user);
 			return new ResponseEntity<>("User registred", HttpStatus.OK);
 		}
 		
@@ -58,4 +59,9 @@ public class UserController {
 	    
 	    return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 	} 
+	
+	private User convertToEntity(RegisterUserDto registerUserDto) {
+		User user = modelMapper.map(registerUserDto, User.class);
+		return user;
+	}
 }
