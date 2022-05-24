@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,25 +30,19 @@ public class UserService {
 	private HttpServletRequest request;
 	
 	public void addUser(User user) {
-		
 		userRepository.save(user);
 		System.out.println("User created : " + user.getEmailUser());
 	}
 	
 	public boolean isInDatabase(User user) {
-		Optional<User> user = userRepository.findByEmailUser(user.getEmailUser());
-		System.out.println(userDto);
-		return user.isPresent();
+		Optional<User> userFind = userRepository.findByEmailUser(user.getEmailUser());
+		return userFind.isPresent();
 	}
 	
 	public boolean isValidUserRegistration(User user) {
 		boolean isValid = true;
 		if(!this.isInDatabase(user)) {
-			System.out.println("password : " + user.getPasswordUser());
-			System.out.println("email : " + user.getEmailUser());
-			System.out.println("name : " + user.getNameUser());
-			System.out.println("surname : " + user.getSurnameUser());
-			
+		
 			if(user.getNameUser() == null || user.getNameUser().isEmpty()) {
 				isValid = false;
 			}
@@ -62,7 +57,7 @@ public class UserService {
 	}
 	
 	public String login(User user, String password) {
-		if(user.getPasswordUser().equals(password)) {
+		if(BCrypt.checkpw(password, user.getPasswordUser())) {
 			return createTokenFromUser(user);
 		} else {
 			return null;

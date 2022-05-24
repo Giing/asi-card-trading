@@ -25,9 +25,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	ModelMapper modelMapper;
-	
 	@RequestMapping("/test")
 	public String test() {
 		User currentUser = userService.getRequestUser();
