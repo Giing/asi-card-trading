@@ -3,6 +3,7 @@ package com.asi.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -23,6 +24,12 @@ public class CardInstance {
 	public CardInstance(int idInstance, Card cardInstance, User userInstance) {
 		super();
 		this.idInstance = idInstance;
+		this.cardInstance = cardInstance;
+		this.userInstance = userInstance;
+	}
+	
+	public CardInstance(Card cardInstance, User userInstance) {
+		super();
 		this.cardInstance = cardInstance;
 		this.userInstance = userInstance;
 	}

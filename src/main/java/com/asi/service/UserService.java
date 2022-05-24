@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.asi.dto.LoginUserDto;
 import com.asi.model.User;
+import com.asi.repository.CardInstanceRepository;
+import com.asi.repository.CardRepository;
 import com.asi.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
@@ -25,12 +27,16 @@ public class UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	CardInstanceService cardInstanceService;
 
 	@Autowired
 	private HttpServletRequest request;
 	
 	public void addUser(User user) {
 		userRepository.save(user);
+		cardInstanceService.giveCardsToNewUser(user);
 		System.out.println("User created : " + user.getEmailUser());
 	}
 	

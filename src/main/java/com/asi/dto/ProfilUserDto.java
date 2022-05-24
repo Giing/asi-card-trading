@@ -1,12 +1,19 @@
 package com.asi.dto;
 
 public class ProfilUserDto {
+	private int idUser;
 	private String email;
 	private String name;
 	private String surname;
 	private String token;
 	private double money;
 	
+	public int getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
 	public String getEmail() {
 		return email;
 	}

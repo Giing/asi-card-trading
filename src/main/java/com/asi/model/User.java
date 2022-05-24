@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
+@Table(name="users")
 public class User {
 	@Id
 	@GeneratedValue

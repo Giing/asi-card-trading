@@ -41,9 +41,9 @@ const card_list = [
 export default {
     async getCardUser(idUser) {
         if (idUser === undefined) {
-            idUser = userService.get_user().id_user
+            idUser = userService.get_user().idUser
         }
-        const response = await API.get('/cards/users/' + idUser)
+        const response = await API.get('api/cards/users/' + idUser)
         return response.data;
     },
     async getAllCard() {

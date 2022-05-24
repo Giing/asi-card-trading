@@ -3,10 +3,12 @@ package com.asi.service;
 import java.util.ArrayList;  
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.asi.model.Card;
 import com.asi.model.CardInstance;
 import com.asi.model.User;
 import com.asi.repository.CardInstanceRepository;
@@ -19,7 +21,12 @@ public class CardInstanceService {
 	CardInstanceRepository cardInstancerepository;
 	
 	@Autowired
+	CardService cardService;
+	
+	@Autowired
 	UserRepository userRepository;
+	
+	private int numberOfCardsToGive = 5; 
 	
 	public List<CardInstance> getCardsByUser(int idUser) {
 		Optional<User> oUser = userRepository.findById(idUser);
@@ -29,5 +36,16 @@ public class CardInstanceService {
 				return oCardInstance.get();
 		}
 		return new ArrayList<CardInstance>();
+	}
+	
+	public void giveCardsToNewUser(User user) {
+		
+		List<Card> cardsToGiveToUser = cardService.getRandomCards(numberOfCardsToGive);
+		
+		Random r = new Random();
+		for(int i = 0; i < this.numberOfCardsToGive; i++) {
+			
+			cardInstancerepository.save(new CardInstance(cardsToGiveToUser.get(i), user));
+		}
 	}
 }

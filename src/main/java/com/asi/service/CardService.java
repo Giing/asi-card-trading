@@ -3,6 +3,9 @@ package com.asi.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,22 @@ public class CardService {
 	
 	public void deleteCard(int idCard) {
 		cardRepository.deleteById(idCard);
+	}
+	
+	public List<Card> getRandomCards(int nbToGenerate) {
+		
+		List<Card> cards = new ArrayList<Card>();
+		Random r = new Random();
+		int nbOfCardsInGame = (int) cardRepository.count();
+		
+		for (int i = 0; i < nbToGenerate; i++) {
+			cards.add(this.getCard(r.nextInt(nbOfCardsInGame)));
+		}
+		
+		if (cards.size() < nbToGenerate)
+			throw new RuntimeException("Pas assez de cartes générées aléatoirement");
+		
+		return cards;
 	}
 
 }
