@@ -36,7 +36,6 @@ import java.util.List;
 public class AuthenticationFilter extends OncePerRequestFilter {
 	
 	private List<String> excludeUrls = Arrays.asList("/user/login", "/user/register");
-	private String token = "Bearer zaafzdfhaezjfhaoezhfoahfdôU";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

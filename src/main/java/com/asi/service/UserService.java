@@ -4,6 +4,9 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import com.asi.dto.RegisterUserDto;
 import com.asi.model.User;
 import com.asi.repository.UserRepository;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
@@ -22,14 +26,17 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	private HttpServletRequest request;
+	
 	public void addUser(RegisterUserDto user) {
 		System.out.println("USER ADDED");
 	}
 	
 	public boolean isInDatabase(RegisterUserDto userDto) {
-		User user = userRepository.findByEmailUser(userDto.email);
+		Optional<User> user = userRepository.findByEmailUser(userDto.email);
 		System.out.println(userDto);
-		return user != null;
+		return user.isPresent();
 	}
 	
 	public boolean isValidUserRegistration(RegisterUserDto user) {
@@ -56,15 +63,38 @@ public class UserService {
 		return isValid;
 	}
 	
-	public String login(LoginUserDto userDto) {
-		Optional<User> user = userRepository.findByEmailUser(userDto.email);
-		
-		if(user.isPresent() && user.get().getPasswordUser().equals(userDto.password)) {
-			return createTokenFromUser(user.get());
+	public String login(User user, String password) {
+		if(user.getPasswordUser().equals(password)) {
+			return createTokenFromUser(user);
 		} else {
 			return null;
 		}
     }
+	
+	public User getUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmailUser(email);
+		if(user.isPresent()) {
+			return user.get();
+		} else {
+			return null;
+		}
+	}
+	
+	public User getRequestUser() {
+		String authToken = request.getHeader("Authorization");
+		
+		if(authToken == null || authToken.isEmpty()) {			
+			return null;
+		}
+		
+		String email = Jwts.parser()
+				.setSigningKey(TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E="))
+				.parseClaimsJws(authToken)
+				.getBody()
+				.getSubject();
+		
+		return getUserByEmail(email);
+	}
 	
 	private String createTokenFromUser(User user) {
 		return Jwts.builder()
