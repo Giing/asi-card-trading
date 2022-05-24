@@ -81,7 +81,7 @@ class CardList extends HTMLBindableElement {
             clone.firstElementChild.innerHTML = newContent;
             container.appendChild(clone);
             const trigger = container.lastElementChild.querySelector(".trigger");
-            trigger.addEventListener('click', () => { this.onButtonClick(card) });
+            trigger.addEventListener('click', () => { this.onButtonClick(card.cardInstance) });
         });
     }
 
