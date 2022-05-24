@@ -69,15 +69,15 @@ class CardList extends HTMLBindableElement {
 
             const newContent = clone.firstElementChild.innerHTML
                 .replace(/{{family_src}}/g, card.family_src)
-                .replace(/{{family_name}}/g, card.family_name)
+                .replace(/{{family_name}}/g, card.cardInstance.familyCard.familyName)
                 .replace(/{{img_src}}/g, card.img_src)
-                .replace(/{{name}}/g, card.name)
-                .replace(/{{description}}/g, card.description)
-                .replace(/{{hp}}/g, card.hp)
-                .replace(/{{energy}}/g, card.energy)
-                .replace(/{{attack}}/g, card.attack)
-                .replace(/{{defense}}/g, card.defense)
-                .replace(/{{price}}/g, card.price)
+                .replace(/{{name}}/g, card.cardInstance.nameCard)
+                .replace(/{{description}}/g, card.cardInstance.descriptionCard)
+                .replace(/{{hp}}/g, card.cardInstance.hp)
+                .replace(/{{energy}}/g, card.cardInstance.energyCard)
+                .replace(/{{attack}}/g, card.cardInstance.attackCard)
+                .replace(/{{defense}}/g, card.cardInstance.defenseCard)
+                .replace(/{{price}}/g, card.cardInstance.priceCard)
             clone.firstElementChild.innerHTML = newContent;
             container.appendChild(clone);
             const trigger = container.lastElementChild.querySelector(".trigger");
