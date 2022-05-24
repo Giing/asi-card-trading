@@ -20,6 +20,12 @@ public class Card {
 	private String affinityCard;
 	@Column
 	private int energyCard;
+	@Column
+	private int hpCard;
+	@Column
+	private int attackCard;
+	@Column
+	private int defenceCard;
 	@ManyToOne
 	private Family familyCard;
 	
@@ -81,7 +87,29 @@ public class Card {
 	public void setFamilyCard(Family familyCard) {
 		this.familyCard = familyCard;
 	}
-	
-	
+
+	public int getHpCard() {
+		return hpCard;
+	}
+
+	public void setHpCard(int hpCard) {
+		this.hpCard = hpCard;
+	}
+
+	public int getAttackCard() {
+		return attackCard;
+	}
+
+	public void setAttackCard(int attackCard) {
+		this.attackCard = attackCard;
+	}
+
+	public int getDefenceCard() {
+		return defenceCard;
+	}
+
+	public void setDefenceCard(int defenceCard) {
+		this.defenceCard = defenceCard;
+	}
 	
 }
