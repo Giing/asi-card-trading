@@ -61,7 +61,7 @@ class FullCard extends HTMLBindableElement {
                                 <a class="ui left corner label">
                                     ${this.cardDescription.nameCard}
                                 </a>
-                                <img id="cardImgId" class="ui centered image" src="${this.cardDescription.img_src}">
+                                <img id="cardImgId" class="ui centered image" src="${this.cardDescription.sourceUrlCard}">
                             </div>
                         </div>
                     </div>

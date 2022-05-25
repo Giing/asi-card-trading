@@ -1,21 +1,21 @@
 import HTMLBindableElement from "./abstract/HTMLBindableElement.js";
 
 class CardList extends HTMLBindableElement {
-    constructor(cards, callback, isSell = false) {
-        super();
+	constructor(cards, callback, isSell = false) {
+		super();
 
-        this.cards = cards;
-        this.oncardclick = callback;
-        this.isSell = isSell;
-    }
+		this.cards = cards;
+		this.oncardclick = callback;
+		this.isSell = isSell;
+	}
 
-    onButtonClick(card) {
+	onButtonClick(card) {
 		console.log(card)
-        this.oncardclick(card);
-    }
+		this.oncardclick(card);
+	}
 
-    render() {
-        this.innerHTML = `
+	render() {
+		this.innerHTML = `
             <div class="ten wide column">
                 <h3 class="ui aligned header"> My Card List</h3>
                 <!------------------------------------------------------------------------->
@@ -63,37 +63,37 @@ class CardList extends HTMLBindableElement {
             </div>
         `;
 
-        const container = this.querySelector('#tableContent');
-        const template = this.querySelector('#row');
+		const container = this.querySelector('#tableContent');
+		const template = this.querySelector('#row');
 
-        this.cards.forEach(card => {
-            const clone = document.importNode(template.content, true);
-			const cardClone	= {...card}; 
+		this.cards.forEach(card => {
+			const clone = document.importNode(template.content, true);
+			const cardClone = { ...card };
 
-            const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
-            console.log(card);
-            const newContent = clone.firstElementChild.innerHTML
-                .replace(/{{family_src}}/g, card.family_src)
-                .replace(/{{family_name}}/g, cardDescription.familyCard.nameFamily)
-                .replace(/{{img_src}}/g, card.img_src)
+			const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card;
+			console.log(card);
+			const newContent = clone.firstElementChild.innerHTML
+				.replace(/{{family_src}}/g, card.family_src)
+				.replace(/{{family_name}}/g, cardDescription.familyCard.nameFamily)
+				.replace(/{{img_src}}/g, card.cardInstance ? card.cardInstance.sourceUrlCard : card.card.sourceUrlCard)
                 .replace(/{{name}}/g, cardDescription.nameCard)
-                .replace(/{{description}}/g, cardDescription.descriptionCard)
-                .replace(/{{hp}}/g, cardDescription.hpCard)
-                .replace(/{{energy}}/g, cardDescription.energyCard)
-                .replace(/{{attack}}/g, cardDescription.attackCard)
-                .replace(/{{defense}}/g, cardDescription.defenceCard)
-                .replace(/{{price}}/g, card.priceSale)
-            clone.firstElementChild.innerHTML = newContent;
-            container.appendChild(clone);
-            const trigger = container.lastElementChild.querySelector(".trigger");
-            trigger.addEventListener('click', () => { this.onButtonClick(cardClone) });
-        });
-    }
+				.replace(/{{description}}/g, cardDescription.descriptionCard)
+				.replace(/{{hp}}/g, cardDescription.hpCard)
+				.replace(/{{energy}}/g, cardDescription.energyCard)
+				.replace(/{{attack}}/g, cardDescription.attackCard)
+				.replace(/{{defense}}/g, cardDescription.defenceCard)
+				.replace(/{{price}}/g, card.priceSale)
+			clone.firstElementChild.innerHTML = newContent;
+			container.appendChild(clone);
+			const trigger = container.lastElementChild.querySelector(".trigger");
+			trigger.addEventListener('click', () => { this.onButtonClick(cardClone) });
+		});
+	}
 
-    setCards(newCards) {
-        this.cards = newCards;
-        this.render();
-    }  
+	setCards(newCards) {
+		this.cards = newCards;
+		this.render();
+	}
 }
 
 customElements.define('card-list', CardList);
