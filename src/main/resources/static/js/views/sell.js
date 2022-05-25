@@ -18,10 +18,12 @@ class SellView extends HTMLElement {
                 </div>
                 <div class=" five wide column" id="selectedCard">
                 </div>
+                <span id="error-price"></span>
             </div>
         `;
         
         this.cardsContainer = new CardList(this.cards, (card) => this.selectCard(card), true);
+        this.errorSpan = document.querySelector("#error-price")
         this.querySelector("#cards").appendChild(this.cardsContainer);
         if ( this.cards.length >=1 ) {
             this.selectedCard = new Card(this.cards[0], true);
@@ -38,10 +40,14 @@ class SellView extends HTMLElement {
 
     async sell() {
         const priceSale = parseFloat(this.selectedCard.button.getValue());
-        const card = this.selectedCard.card;
-        const transaction = {idCard: card.idInstance, priceSale}
-        await SaleService.sellCard(transaction);
-        this.render();
+        if(priceSale === undefined || isNaN(priceSale)) {
+            this.errorSpan.innerHTML = "Invalid price"
+        } else {
+            const card = this.selectedCard.card;
+            const transaction = {idCard: card.idInstance, priceSale}
+            await SaleService.sellCard(transaction);
+            this.render();
+        }
     }
 
     connectedCallback() {

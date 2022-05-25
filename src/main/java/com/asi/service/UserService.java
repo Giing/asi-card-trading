@@ -35,6 +35,7 @@ public class UserService {
 	private HttpServletRequest request;
 	
 	public void addUser(User user) {
+		user.setMoneyUser(1000.0);
 		userRepository.save(user);
 		cardInstanceService.giveCardsToNewUser(user);
 		System.out.println("User created : " + user.getEmailUser());
