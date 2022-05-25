@@ -10,7 +10,6 @@ class CardList extends HTMLBindableElement {
     }
 
     onButtonClick(card) {
-		console.log(card)
         this.oncardclick(card);
     }
 
@@ -71,7 +70,6 @@ class CardList extends HTMLBindableElement {
 			const cardClone	= {...card}; 
 
             const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
-            console.log(card);
             const newContent = clone.firstElementChild.innerHTML
                 .replace(/{{family_src}}/g, card.family_src)
                 .replace(/{{family_name}}/g, cardDescription.familyCard.nameFamily)
