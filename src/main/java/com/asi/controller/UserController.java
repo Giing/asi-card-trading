@@ -36,7 +36,6 @@ public class UserController {
 	public ResponseEntity<?>  register(@RequestBody RegisterUserDto userDto) {
 		//Create user 
 		User user = convertToEntity(userDto);
-		user.setMoneyUser(1000);
 		user.hashPassword();
 		
 

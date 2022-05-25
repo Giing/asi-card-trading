@@ -29,22 +29,25 @@ public class CardInstanceService {
 	private int numberOfCardsToGive = 5; 
 	
 	public List<CardInstance> getCardsByUser(int idUser) {
+		
+		// Récupération du user
 		Optional<User> oUser = userRepository.findById(idUser);
 		if (oUser.isPresent()) {
-			Optional<List<CardInstance>> oCardInstance = cardInstancerepository.findByUserInstance(oUser.get());
-			if (oCardInstance.isPresent())
-				return oCardInstance.get();
+			// Récupération de la liste des carte par l'instance de l'utilisateur
+			Optional<List<CardInstance>> oCardInstanceList = cardInstancerepository.findByUserInstance(oUser.get());
+			if (oCardInstanceList.isPresent())
+				return oCardInstanceList.get();
 		}
 		return new ArrayList<CardInstance>();
 	}
 	
 	public void giveCardsToNewUser(User user) {
 		
+		// Récupération de n carte aléatoire
 		List<Card> cardsToGiveToUser = cardService.getRandomCards(numberOfCardsToGive);
 		
-		Random r = new Random();
+		// Attribution des cartes à l'utilisateur
 		for(int i = 0; i < this.numberOfCardsToGive; i++) {
-			
 			cardInstancerepository.save(new CardInstance(cardsToGiveToUser.get(i), user));
 		}
 	}
