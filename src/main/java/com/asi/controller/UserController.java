@@ -25,10 +25,16 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping("/test")
-	public String test() {
+	@RequestMapping("/api/user/profile")
+	@ResponseBody
+	public ResponseEntity<?> getUserProfile() {
 		User currentUser = userService.getRequestUser();
-		return "Bonjour utilisateur identifié: " + currentUser.getEmailUser();
+		if(currentUser != null) {			
+			ProfilUserDto profilUserDto = modelMapper.map(currentUser, ProfilUserDto.class);
+			return new ResponseEntity<>(profilUserDto, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("No user connected", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value = "/api/user/register", method=RequestMethod.POST, produces = "application/json")

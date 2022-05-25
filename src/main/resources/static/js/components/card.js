@@ -4,10 +4,13 @@ import HTMLBindableElement from "./abstract/HTMLBindableElement.js";
 class FullCard extends HTMLBindableElement {
     constructor(card, isSell = false) {
         super();
-        this.card = card;
-        this.isSell = isSell;
 
-        this.cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
+        if(card) {
+            this.card = card;
+            this.cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
+        }
+        
+        this.isSell = isSell;
     }
 
     bind(callback, name) {

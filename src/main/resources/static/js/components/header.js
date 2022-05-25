@@ -22,9 +22,19 @@ class Header extends HTMLBindableElement {
         } else {
             URL.redirect('login');
         }
+
+        window.ReloadCustomComponents = {
+            "header": this
+        }
     }
 
-    render() {
+    logout() {
+        userService.logout();
+        window.location.reload();
+    }
+
+    async render() {
+        await userService.refreshUserProfile(false);
         const user = userService.get_user();
 
         this.innerHTML = `
@@ -37,7 +47,7 @@ class Header extends HTMLBindableElement {
                     </div>
                 </h3>
                 <h3 class="ui right floated header">
-                    <button class="ui red button" onclick="${this.bind(userService.logout,"logout")}">
+                    <button class="ui red button" onclick="${this.bind(this.logout,"logout")}">
                         Logout
                     </button>
                 </h3>

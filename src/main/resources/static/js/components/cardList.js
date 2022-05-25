@@ -9,10 +9,9 @@ class CardList extends HTMLBindableElement {
 		this.isSell = isSell;
 	}
 
-	onButtonClick(card) {
-		console.log(card)
-		this.oncardclick(card);
-	}
+    onButtonClick(card) {
+        this.oncardclick(card);
+    }
 
 	render() {
 		this.innerHTML = `
@@ -70,12 +69,11 @@ class CardList extends HTMLBindableElement {
 			const clone = document.importNode(template.content, true);
 			const cardClone = { ...card };
 
-			const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card;
-			console.log(card);
-			const newContent = clone.firstElementChild.innerHTML
-				.replace(/{{family_src}}/g, card.family_src)
-				.replace(/{{family_name}}/g, cardDescription.familyCard.nameFamily)
-				.replace(/{{img_src}}/g, card.cardInstance ? card.cardInstance.sourceUrlCard : card.card.sourceUrlCard)
+            const cardDescription = card.cardInstance !== undefined ? card.cardInstance : card.card; 
+            const newContent = clone.firstElementChild.innerHTML
+                .replace(/{{family_src}}/g, card.family_src)
+                .replace(/{{family_name}}/g, cardDescription.familyCard.nameFamily)
+                .replace(/{{img_src}}/g, cardDescription.sourceUrlCard)
                 .replace(/{{name}}/g, cardDescription.nameCard)
 				.replace(/{{description}}/g, cardDescription.descriptionCard)
 				.replace(/{{hp}}/g, cardDescription.hpCard)

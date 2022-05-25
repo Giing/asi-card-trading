@@ -2,12 +2,15 @@ import Store from "../utils/store.js";
 import API from "../utils/axios.js";
 import {updateToken} from "../utils/axios.js";
 
-const user_key = 'user';
 
 const get_user = () => Store.getItem(user_key);
 const get_token = () => get_user()?.token;
 const get_user_id = () => parseInt(get_user()?.idUser);
+const logout = () => {
+    Store.removeItem(user_key);
+}
 
+const user_key = 'user';
 const root = 'user';
 
 
@@ -35,19 +38,30 @@ export default {
             return false;
         }
     },
-    async logout() {
+    async refreshUserProfile(refreshHeader = true) {
         try {
-            const response = {"id_user": "0","user_name": "karim", "money": 9000, "token": "zaeazeazeazeaez"} // await fetch('api/user/logout', {login})
-            Store.removeItem(user_key);
-            window.location.reload(true);
+            const response = await API.post(`${root}/profile`);
+            const newUserProfile = response.data;
+            delete newUserProfile.token;
+
+            Store.setItem(user_key, {
+                ...get_user(),
+                ...newUserProfile,
+            });
+
+            if(refreshHeader) 
+                window.ReloadCustomComponents['header'].render();
+            
             return true;
         } catch (error) {
+            logout();
             return false;
         }
     },
     get_user,
     get_token,
     get_user_id,
+    logout,
     isUserLoggedIn() {
         return get_user() != null;
     }

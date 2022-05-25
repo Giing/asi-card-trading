@@ -11,7 +11,6 @@ class BuyView extends HTMLElement {
 
     async render() {
         this.cards = await SaleService.getSellableCards();
-        console.log(this.cards);
 
         this.innerHTML = `
             <div class="ui grid">
@@ -30,7 +29,6 @@ class BuyView extends HTMLElement {
     }
 
     selectCard(card) {
-		console.log(card)
         this.selectedCard.setCard(card)
     }
 
