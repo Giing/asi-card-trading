@@ -40,18 +40,13 @@ public class UserController {
 	@RequestMapping(value = "/api/user/register", method=RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<?>  register(@RequestBody RegisterUserDto userDto) {
-		//Create user 
-		User user = convertToEntity(userDto);
-		user.hashPassword();
-		
-
-		if (userService.isValidUserRegistration(user)) {
-			// Send response
-			userService.addUser(user);
+		try {
+			User user = convertToEntity(userDto);
+			userService.registerUser(user);
 			return new ResponseEntity<>("User registred", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>("Bad request", HttpStatus.BAD_REQUEST);
-		}		
+		} catch (Exception e) {
+			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value = "/api/user/login", method=RequestMethod.POST, produces = "application/json")

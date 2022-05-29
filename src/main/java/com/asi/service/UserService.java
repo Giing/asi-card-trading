@@ -37,13 +37,23 @@ public class UserService {
 	public void addUser(User user) {
 		user.setMoneyUser(1000.0);
 		userRepository.save(user);
+		System.out.println("User created : " + user.getIdUser());
 		cardInstanceService.giveCardsToNewUser(user);
 		System.out.println("User created : " + user.getEmailUser());
+	}
+
+	public void registerUser(User user) throws Exception {
+		user.hashPassword();
+
+		if (this.isValidUserRegistration(user)) {
+			this.addUser(user);
+		} else {
+			throw new Exception("Registration failed.");
+		}
 	}
 	
 	public boolean isInDatabase(User user) {
 		Optional<User> userFind = userRepository.findByEmailUser(user.getEmailUser());
-		boolean userfds = userFind.isPresent();
 		return userFind.isPresent();
 	}
 	

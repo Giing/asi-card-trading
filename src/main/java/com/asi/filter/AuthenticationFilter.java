@@ -8,8 +8,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.sun.tools.sjavac.Log;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
@@ -35,7 +33,7 @@ import java.util.List;
 @Order(1)
 public class AuthenticationFilter extends OncePerRequestFilter {
 	
-	private List<String> excludeUrls = Arrays.asList("/api/user/login", "/api/user/register", "/api/sales", "/h2-console");
+	private List<String> excludeUrls = Arrays.asList("/api/user/login", "/api/user/register", "/api/sales", "/h2-console", "/api/rooms", "/api/rooms/create", "/api/rooms/join/0");
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -43,7 +41,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		String authToken = request.getHeader("Authorization");
-		LOG.info("Starting a transaction for req : {}", authToken);
+		// LOG.info("Starting a transaction for req : {}", authToken);
 		if(authToken != null && !authToken.isEmpty() && isTokenValid(authToken.replace("Bearer ", ""))) {			
 			filterChain.doFilter(request, response);
 		} else {

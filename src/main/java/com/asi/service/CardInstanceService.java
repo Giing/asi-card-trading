@@ -45,6 +45,7 @@ public class CardInstanceService {
 		
 		// Récupération de n carte aléatoire
 		List<Card> cardsToGiveToUser = cardService.getRandomCards(numberOfCardsToGive);
+		System.out.println(cardsToGiveToUser.size());
 		
 		// Attribution des cartes à l'utilisateur
 		for(int i = 0; i < this.numberOfCardsToGive; i++) {

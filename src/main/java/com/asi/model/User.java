@@ -45,6 +45,15 @@ public class User {
 		this.passwordUser = passwordUser;
 	}
 
+	public User(String nameUser, String surnameUser, String emailUser, double moneyUser, String passwordUser) {
+		super();
+		this.nameUser = nameUser;
+		this.surnameUser = surnameUser;
+		this.emailUser = emailUser;
+		this.moneyUser = moneyUser;
+		this.passwordUser = passwordUser;
+	}
+
 	public int getIdUser() {
 		return idUser;
 	}
