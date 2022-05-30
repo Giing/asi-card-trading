@@ -48,7 +48,7 @@ class LoginForm extends HTMLBindableElement {
         const isLogged = await userService.login({ email, password })
 
         if (isLogged) {
-            URL.redirect('home')
+            URL.redirect('index')
         } else {
             this.setError("Une erreur est survenue lors de la connexion")
         }
