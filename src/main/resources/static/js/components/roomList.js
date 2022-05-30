@@ -64,6 +64,7 @@ class RoomList extends HTMLBindableElement {
 
 	setRooms(newRooms) {
 		this.rooms = newRooms;
+        console.log(newRooms)
 		this.render();
 	}
 }

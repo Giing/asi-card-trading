@@ -17,9 +17,12 @@ export default class LobbyView extends HTMLView {
         `;
 
         this.eventRoom = this.querySelector("#eventRoom");
-        roomService.addCurrentRoomEventListener((event) => {
-            console.log(event)
-            this.eventRoom.innerHTML = event;
+        roomService.addCurrentRoomEventListener("updateLobby", (event) => {
+            const label = event.numberOfPlayers > 1 
+                ? 'players' 
+                : 'player';
+            
+            this.eventRoom.innerHTML = `${event.numberOfPlayers} ${label}`;
         })
     }
 }

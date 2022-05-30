@@ -1,7 +1,7 @@
 import Store from "../utils/store.js";
 import API from "../utils/axios.js";
 
-const baseUrl = "http://localhost:8080/api/rooms";
+const baseUrl = "http://localhost:8080/api/rooms/sse";
 
 const getHeaders = () => ({
     headers: {
@@ -9,15 +9,13 @@ const getHeaders = () => ({
     }
 })
 
-console.log(getHeaders())
-
 const availableRoomsEvents = {}
 const streamAvailableRooms = new EventSourcePolyfill(baseUrl, getHeaders());
 streamAvailableRooms.onmessage = (event) => {
     const rooms = JSON.parse(event.data);
-    console.log("Rooms: ", rooms);
-    for (const [key, event] of Object.entries(availableRoomsEvents)) {
-        event(rooms);
+
+    for (const [key, availableRoomsEvent] of Object.entries(availableRoomsEvents)) {
+        availableRoomsEvent(rooms);
     }
 }
 
@@ -28,33 +26,44 @@ const setCurrentRoom = (eventSource) => {
 
     currentRoom = eventSource;
     currentRoom.onmessage = (event) => {
-        const data = event.data;
-        console.log("Event: ", data);
-        for (const [key, event] of Object.entries(currentRoomEvents)) {
-            event(data);
+        const data = JSON.parse(event.data);
+
+        for (const [key, currentRoomEvent] of Object.entries(currentRoomEvents)) {
+            currentRoomEvent(data);
         }
     }
 }
+
 const isConnectedToRoom = () => {
     return currentRoom !== undefined;
 }
 
-export default {
-    addAvailableRoomsEventListener(key, callback) {
-        availableRoomsEvents[key] = callback;
+const joinRoom = (room) => {
+    setCurrentRoom(new EventSourcePolyfill(baseUrl + "/join/" + room.idRoom, getHeaders()));
+}
 
+export default {
+    async createRoom() {
+        try {
+            const response = await API.post('/rooms');
+            return response.data;
+        } catch (error) {   
+            return null;
+        }
     },
-    removeAvailableRoomsEventListener(key) {
-        delete availableRoomsEvents[key];
+    joinRoom,
+
+    async getAvailabeRooms() {
+        try {
+            const response = await API.get('/rooms');
+            return response.data
+        } catch (error) {
+            return [];            
+        }
     },
-    createRoom() {
-        console.log("hello 2")
-        API.post("/")
-        setCurrentRoom(new EventSourcePolyfill(baseUrl + "/create", getHeaders()));
-    },
-    joinRoom(room) {
-        setCurrentRoom(new EventSourcePolyfill(baseUrl + "/join/" + room.idRoom, getHeaders()));
-    },
+
+
+    isConnectedToRoom,
     addCurrentRoomEventListener(key, callback) {
         currentRoomEvents[key] = callback;
 
@@ -62,5 +71,11 @@ export default {
     removeCurrentRoomEventListener(key) {
         delete currentRoomEvents[key];
     },
-    isConnectedToRoom
+    addAvailableRoomsEventListener(key, callback) {
+        availableRoomsEvents[key] = callback;
+
+    },
+    removeAvailableRoomsEventListener(key) {
+        delete availableRoomsEvents[key];
+    },
 }

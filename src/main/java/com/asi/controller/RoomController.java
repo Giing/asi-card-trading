@@ -4,11 +4,14 @@ package com.asi.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -23,7 +26,7 @@ import javax.annotation.PostConstruct;
 
 import com.asi.model.Room;
 import com.asi.service.UserService;
-import com.asi.utils.SSEHandler;
+import com.asi.utils.SseHandler;
 
 @RestController
 public class RoomController {
@@ -34,7 +37,7 @@ public class RoomController {
     UserService userService;
 
     Map<Integer, Room> availableRooms = new HashMap<Integer, Room>();
-    SSEHandler emittersAvailableRooms = new SSEHandler();
+    SseHandler emittersAvailableRooms = new SseHandler();
 
     @PostConstruct
     public void init() {
@@ -42,20 +45,16 @@ public class RoomController {
 
         executor.execute(() -> {
             while(true) {
-                // System.out.println("Exec");
-
                 for (Room room : availableRooms.values()) {
-                    SSEHandler handler = room.emitterRoom;
+                    SseHandler handler = room.emitterRoom;
     
                     for (Map.Entry<String, SseEmitter> connection : handler.emitters.entrySet()) {
                         SseEmitter emitter = connection.getValue();
                         try {
-                            emitter.send("Bonjour le monde de la room: " + room.getIdRoom());
+                            emitter.send(room);
                         } catch (IOException e) {
-                            e.printStackTrace();
                         }
                     }
-                    //System.out.println("Bonjour le monde de la room: " + room.getIdRoom());
                 }
                 randomDelay();
             }
@@ -70,40 +69,10 @@ public class RoomController {
         }
     }
 
-    /*@RequestMapping(value = "/api/rooms/create", method = RequestMethod.GET)
-    public SseEmitter create() {
-        Integer size = availableRooms.size();
-        Room newRoom = new Room(size);
-        
-        System.out.println("Create room: " + size);
-        dispatchAvailableRooms();
-        availableRooms.put(size, newRoom);
-        // handle room connection
-        return newRoom.emitterRoom.addClient();
-    }*/
-
-    @GetMapping(value = "/api/rooms/join/{idRoom}")
-    public SseEmitter join(@PathVariable int idRoom) {
-        // System.out.println(idRoom);
-        if (availableRooms.containsKey(idRoom)) {
-            SSEHandler roomHandler = availableRooms.get(idRoom).getHandlerRoom();
-            return roomHandler.addClient();
-        } else {
-            return null;
-        }
-    }
-
     @RequestMapping("/api/rooms")
-    public SseEmitter streamAvailableRooms() {
-        SseEmitter emitter = emittersAvailableRooms.addClient();
-        //A REPRENDRE OU PAS en REST
-        try {
-            emitter.send(availableRooms.values());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return emitter;
+    @ResponseBody
+    public ResponseEntity<?> getAvailableRooms() {
+        return new ResponseEntity<>(availableRooms.values(), HttpStatus.OK);
     }
 
     @PostMapping("/api/rooms")
@@ -113,40 +82,33 @@ public class RoomController {
         System.out.println("Create room: " + size);
         availableRooms.put(size, newRoom);
         dispatchAvailableRooms();
-        return newRoom;    
-        // handle room connection
-        //return newRoom.emitterRoom.addClient();
+        return newRoom;
     }
 
-/*
-    @GetMapping("/api/rooms/{id}/sse")
-    public void waitingRoomInfos() {
-        Integer size = availableRooms.size();
-        Room newRoom = new Room(size);
-        System.out.println("Create room: " + size);
-        availableRooms.put(size, newRoom);
-        dispatchAvailableRooms();    
-        // handle room connection
-        //return newRoom.emitterRoom.addClient();
+
+    @RequestMapping("/api/rooms/sse")
+    public SseEmitter streamAvailableRooms() {
+        return emittersAvailableRooms.addClient();
     }
-*/
+
+    @GetMapping(value = "/api/rooms/sse/join/{idRoom}")
+    public SseEmitter join(@PathVariable int idRoom) {
+        if (availableRooms.containsKey(idRoom)) {
+            return availableRooms.get(idRoom).addPlayer();
+        } else {
+            return null;
+        }
+    }
 
     private void dispatchAvailableRooms() {
         Collection<Room> message = availableRooms.values();
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        executor.execute(() -> {
-            for (Map.Entry<String, SseEmitter> connection : emittersAvailableRooms.emitters.entrySet()) {
+        for (Map.Entry<String, SseEmitter> connection : emittersAvailableRooms.emitters.entrySet()) {
+            try {
                 SseEmitter emitter = connection.getValue();
-                try {
-                    emitter.send(message);
-                } catch (IOException e) {
-                    //emitter.completeWithError(e);
-                    //e.printStackTrace();
-                    LOG.error("Une erreur est survenue", e);
-                }
+                emitter.send(message);
+            } catch (IOException e) {
+
             }
-        });
-        executor.shutdown();
+        }
     }
 }

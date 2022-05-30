@@ -20,22 +20,24 @@ export default class RoomsView extends HTMLView {
             </div>
         `;
 
-        this.roomList = new RoomList([], (room) => this.selectRoom(room));
+        const rooms = await roomService.getAvailabeRooms();
+        this.roomList = new RoomList(rooms, (room) => this.selectRoom(room));
         this.querySelector("#rooms").appendChild(this.roomList);
-
 
         roomService.addAvailableRoomsEventListener("renderList", (rooms) => this.roomList.setRooms(rooms));
     }
 
     selectRoom(room) {
         roomService.joinRoom(room);
-        // this.router.redirect("lobby");
+        this.router.redirect("lobby");
     }
 
-    createRoom() {
-        console.log("hello 1")
-        roomService.createRoom();
-        // this.router.redirect("lobby");
+    async createRoom() {
+        const room = await roomService.createRoom();
+        if(!room) return;
+
+        console.log(room)
+        this.selectRoom(room);
     }
 }
 
