@@ -1,5 +1,6 @@
 const JSScripts = [
   'lib/axios.min.js',
+  'lib/eventSource.js',
   'lib/jquery-3.3.1.min.js',
   'lib/Semantic-UI-CSS-master/semantic.js'
 ]

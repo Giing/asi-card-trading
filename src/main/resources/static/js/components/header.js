@@ -1,26 +1,28 @@
 import userService from "../services/userService.js";
-import URL from "../utils/url.js";
 import HTMLBindableElement from "./abstract/HTMLBindableElement.js";
 
+import { getGlobalComponent } from "../modules/app.js";
+
 const router = {
-    'sell.html': {'header': 'SELL', 'span': 'Sell your card to get money'},
-    'buy.html': {'header': 'BUY', 'span': 'Buy cards'}
+    'sell': {'header': 'SELL', 'span': 'Sell your card to get money'},
+    'buy': {'header': 'BUY', 'span': 'Buy cards'}
 }
 
 class Header extends HTMLBindableElement {
     constructor() {
         super();
+        this.router = getGlobalComponent("router");
 
         if (userService.isUserLoggedIn()) {
             this.location = {'header': 'HOME', 'span': ''};
             for (const [key, value] of Object.entries(router)) {
-                if(window.location.pathname.includes(key)) {
+                if(this.router.getRoute() === key) {
                     this.location = value;
                     break;
                 }
             }
         } else {
-            URL.redirect('login');
+            this.router.redirect('login');
         }
 
         window.ReloadCustomComponents = {
@@ -30,7 +32,7 @@ class Header extends HTMLBindableElement {
 
     logout() {
         userService.logout();
-        window.location.reload();
+        this.router.redirect("home")
     }
 
     async render() {
@@ -39,11 +41,11 @@ class Header extends HTMLBindableElement {
 
         this.innerHTML = `
             <div class="ui clearing segment">
-                <h3 class="ui left floated header">
+                <h3 class="ui left floated header" onclick="${this.bind(() => this.router.redirect("home"),"redirectHome")}">
                     <i class="money icon"></i>
                     <div class="content">
-                        ${this.location.header}
-                        <div class="sub header">${this.location.span}</div>
+                        ${this.location?.header}
+                        <div class="sub header">${this.location?.span}</div>
                     </div>
                 </h3>
                 <h3 class="ui right floated header">

@@ -1,7 +1,18 @@
+import Store from "../utils/store.js";
+import API from "../utils/axios.js";
+
 const baseUrl = "http://localhost:8080/api/rooms";
 
+const getHeaders = () => ({
+    headers: {
+        Authorization: Store.getItem('user')?.token
+    }
+})
+
+console.log(getHeaders())
+
 const availableRoomsEvents = {}
-const streamAvailableRooms = new EventSource(baseUrl);
+const streamAvailableRooms = new EventSourcePolyfill(baseUrl, getHeaders());
 streamAvailableRooms.onmessage = (event) => {
     const rooms = JSON.parse(event.data);
     console.log("Rooms: ", rooms);
@@ -13,9 +24,11 @@ streamAvailableRooms.onmessage = (event) => {
 const currentRoomEvents = {}
 let currentRoom = null;
 const setCurrentRoom = (eventSource) => {
+    if (currentRoom) currentRoom.close();
+
     currentRoom = eventSource;
     currentRoom.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        const data = event.data;
         console.log("Event: ", data);
         for (const [key, event] of Object.entries(currentRoomEvents)) {
             event(data);
@@ -35,10 +48,12 @@ export default {
         delete availableRoomsEvents[key];
     },
     createRoom() {
-        setCurrentRoom(new EventSource(baseUrl + "/create"));
+        console.log("hello 2")
+        API.post("/")
+        setCurrentRoom(new EventSourcePolyfill(baseUrl + "/create", getHeaders()));
     },
     joinRoom(room) {
-        setCurrentRoom(new EventSource(baseUrl + "/join/" + room.idRoom));
+        setCurrentRoom(new EventSourcePolyfill(baseUrl + "/join/" + room.idRoom, getHeaders()));
     },
     addCurrentRoomEventListener(key, callback) {
         currentRoomEvents[key] = callback;

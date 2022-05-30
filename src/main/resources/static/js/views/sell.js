@@ -1,10 +1,11 @@
+import HTMLView from "../components/abstract/HTMLView.js";
 import CardList from "../components/cardList.js"
 import Card from "../components/card.js"
 
 import SaleService from "../services/saleService.js";
 import CardService from "../services/cardService.js";
 
-class SellView extends HTMLElement {
+export default class SellView extends HTMLView {
     constructor() {
         super();
     }
@@ -13,6 +14,7 @@ class SellView extends HTMLElement {
         this.cards = await CardService.getCardUser();
 
         this.innerHTML = `
+            <header-component></header-component>
             <div class="ui grid">
                 <div class="ten wide column" id="cards">
                 </div>
@@ -48,10 +50,6 @@ class SellView extends HTMLElement {
             await SaleService.sellCard(transaction);
             this.render();
         }
-    }
-
-    connectedCallback() {
-        this.render();
     }
 }
 

@@ -1,18 +1,20 @@
-import roomService from "../services/roomService.js";
-import HTMLBindableElement from "../components/abstract/HTMLBindableElement.js";
+import HTMLView from "../components/abstract/HTMLView.js";
 import RoomList from "../components/roomList.js";
 
-class RoomsView extends HTMLBindableElement {
+import roomService from "../services/roomService.js";
+
+export default class RoomsView extends HTMLView {
     constructor() {
         super();
     }
 
     async render() {
         this.innerHTML = `
+            <header-component></header-component>
             <div class="ui grid">
                 <div class="ten wide column" id="rooms">
                 </div>
-                <button class="ui red button" onclick="${this.bind(roomService.createRoom ,"createRoom")}">
+                <button class="ui red button" onclick="${this.bind(() => this.createRoom() ,"createRoomAction")}">
                     Add room
                 </button>
             </div>
@@ -26,8 +28,14 @@ class RoomsView extends HTMLBindableElement {
     }
 
     selectRoom(room) {
-        console.log(room);
         roomService.joinRoom(room);
+        // this.router.redirect("lobby");
+    }
+
+    createRoom() {
+        console.log("hello 1")
+        roomService.createRoom();
+        // this.router.redirect("lobby");
     }
 }
 

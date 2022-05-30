@@ -33,7 +33,7 @@ import java.util.List;
 @Order(1)
 public class AuthenticationFilter extends OncePerRequestFilter {
 	
-	private List<String> excludeUrls = Arrays.asList("/api/user/login", "/api/user/register", "/api/sales", "/h2-console", "/api/rooms", "/api/rooms/create", "/api/rooms/join/0");
+	private List<String> excludeUrls = Arrays.asList("/api/user/login", "/api/user/register", "/api/sales", "/h2-console", "/api/rooms", "/api/rooms/create", "/api/rooms/join/0", "/index.html");
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
