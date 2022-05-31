@@ -23,6 +23,7 @@ class RoomList extends HTMLBindableElement {
                     <thead>
                         <tr>
                             <th class="three wide">Id</th>
+                            <th class="three wide">Name</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@ class RoomList extends HTMLBindableElement {
                         <template id="row">
                             <tr>
                                 <td>{{id}}</td>
+                                <td>{{name}}</td>
                                 <td>
                                     <div class="ui vertical animated button trigger" tabindex="0">
                                         <div class="hidden content">Sell</div>
@@ -54,6 +56,7 @@ class RoomList extends HTMLBindableElement {
 
             const newContent = clone.firstElementChild.innerHTML
                 .replace(/{{id}}/g, roomClone.idRoom)
+                .replace(/{{name}}/g, roomClone.nameRoom)
 			clone.firstElementChild.innerHTML = newContent;
 			container.appendChild(clone);
 

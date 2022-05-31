@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,7 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.PostConstruct;
 
+import com.asi.dto.RoomDto;
 import com.asi.model.Room;
 import com.asi.service.UserService;
 import com.asi.utils.SseHandler;
@@ -76,9 +78,9 @@ public class RoomController {
     }
 
     @PostMapping("/api/rooms")
-    public Room createRoom() {
+    public Room createRoom(@RequestBody RoomDto room) {
         Integer size = availableRooms.size();
-        Room newRoom = new Room(size);
+        Room newRoom = new Room(size, room.getNameRoom());
         System.out.println("Create room: " + size);
         availableRooms.put(size, newRoom);
         dispatchAvailableRooms();

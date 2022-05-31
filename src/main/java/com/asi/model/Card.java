@@ -135,5 +135,4 @@ public class Card {
 	public void setDefenceCard(int defenceCard) {
 		this.defenceCard = defenceCard;
 	}
-	
 }

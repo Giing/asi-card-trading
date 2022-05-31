@@ -43,9 +43,9 @@ const joinRoom = (room) => {
 }
 
 export default {
-    async createRoom() {
+    async createRoom(data) {
         try {
-            const response = await API.post('/rooms');
+            const response = await API.post('/rooms', data);
             return response.data;
         } catch (error) {   
             return null;
